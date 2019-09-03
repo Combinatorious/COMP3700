@@ -1,1 +1,8 @@
 *.png
+
+# latex additionals
+*.log
+*.aux
+*.synctex.gz
+*.toc
+*.out

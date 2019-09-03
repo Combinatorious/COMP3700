@@ -1,0 +1,62 @@
+\documentclass{letter}
+\usepackage[parfill]{parskip}
+
+\usepackage{hyperref}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\renewcommand{\familydefault}{\sfdefault}
+
+\begin{document}
+\begin{center}
+\textbf{COMP3700 Activity 4}\\
+Tripp Isbell\\
+cai0004@auburn.edu
+\end{center}
+
+\begin{enumerate}
+	\item Identify entities
+	\begin{itemize}
+		\item Customers
+		\begin{itemize}
+			\item name
+			\item email
+			\item payment method
+			\item purchase history
+		\end{itemize}
+		\item Products
+		\begin{itemize}
+			\item product ID
+			\item price
+			\item 
+		\item Employees
+		\item Suppliers
+	\end{itemize}
+	\item Identify relationships
+	\begin{itemize}
+		\item Customers $\longleftrightarrow$ Products
+		\item Employees $\longleftrightarrow$ 
+	\end{itemize}
+	\item Draw entity-relationship diagram
+	
+	\begin{tikzpicture}[scale=2]
+	\begin{scope}[every node/.style={rectangle,draw}, every label/.append style={font=\scriptsize}]
+		\node (Customers) at (0, 4) {Customers};
+		\node (Employees) at (0, 0) {Employees};
+			\node (Employee ID) at (0, -1) {Employee ID};
+			\node (Employee name) at (-1,0) {Employee name};
+			\node (Employee payment) at (-1,-1) {Employee payment};
+			\node (Employee rank) at (-1, -1.5) {Employee rank};
+		\node (Products) at (4, 4) {Products};
+		\node (Expense records) at (2, 2) {Expense records};
+		
+	\end{scope}
+	\begin{scope}[>={Stealth[black]}]
+	\path [<->] (Customers) edge (Products);
+	
+	\end{scope}
+	\end{tikzpicture}
+
+\end{enumerate}
+
+\end{document}
