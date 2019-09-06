@@ -78,32 +78,64 @@ cai0004@auburn.edu
 	
 \begin{lstlisting} 
 CREATE TABLE Project (
-	ProjectID int NON NULL primary key,
-	ProjectName varchar(100),
+	ProjectID int NON NULL PRIMARY KEY,
+	Name varchar(100),
 	Subtotal float,
-	ProjectLeaderID int
+	ProjectLeaderID int FOREIGN KEY REFERENCES Employee(EmployeeID)
 );
 
-CREATE TABLE Employee {
-	EmployeeNum int NON NULL primary key,
-	EmployeeName varchar(100),
-	JobID int
-};
+CREATE TABLE Employee (
+	EmployeeID int NON NULL PRIMARY KEY,
+	Name varchar(100),
+	JobClassID int FOREIGN KEY REFERENCES JobClass(JobClassID)
+);
 
-CREATE TABLE Job {
-	JobID int NON NULL primary key,
-	JobClass varchar(100),
-	ChargePerHour float,
-};
-
-CREATE TABLE Assignment {
+CREATE TABLE JobClass (
+	JobClassID int NON NULL PRIMARY KEY,
+	Name varchar(100),
+	Charge float,
+);
+~\newpage~
+CREATE TABLE Assignment (
 	AssignID int NON NULL primary key,
-	ProjectNum int.
-	EmployeeNum int,
-	Hour
+	ProjectID int FOREIGN KEY REFERENCES Project(ProjectID),
+	EmployeeID int FOREIGN KEY REFERENCES Employee(EmployeeID),
+	Hours int,
+	TotalCharge float
+);
 \end{lstlisting}
 	
 	\item Write SQL to insert the data into those tables
+	
+\begin{lstlisting}
+
+INSERT INTO Project (ProjectID, Name, Subtotal, ProjectLeaderID)
+VALUES(15, 'Evergreen', 10549.70, 105),
+		(18, 'Amber Wave', 7171.47, 104),
+		(22, 'Rolling Tide', 13660.10, 113),
+		(25, 'Starflight', 17559.82, 101);
+		
+INSERT INTO JobClass (JobClassID, Name, Charge)
+VALUES(1, 'Elec. Engineer', 84.50),
+		(2, 'Database Designer', 105.00),
+		(3, 'Programmer', 35.75),
+		(4, 'Systems Analyst', 96.75),
+		(5, 'Applications Designer', 48.10),
+		(6, 'General Support', 18.36),
+		(7, 'DSS Analyst', 45.95),
+		(8, Clerical Support', 26.87);
+		
+INSERT INTO Employee (EmployeeID, Name, JobClassID)
+VALUES(101, 'John G. News', 2),
+		(102, 'David H. Senior, 4),
+		(103, 'June E. Arbough', 1),
+		~$\vdots$~
+
+INSERT INTO Assignment (AssignID, ProjectID, EmployeeID, Hours, TotalCharge)
+VALUES(1, 15, 103, 23.8, 2011.10),
+		(2, 15, 101, 19.4, 2037.00),
+		~$\vdots$~
+\end{lstlisting}
 
 \end{enumerate}
 \end{document}
