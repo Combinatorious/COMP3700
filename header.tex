@@ -1,0 +1,112 @@
+
+% Packages
+% --------
+%	 Necessary
+\usepackage{geometry} 						% geometry - page dimensions
+\usepackage[parfill]{parskip}				% parskip - to use blank line to sep paragraphs
+\usepackage{titling}						% title formatting
+\usepackage{enumitem}
+
+\usepackage{amsmath}						% AMS - math, fonts, symbols, theorem
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{mathtools}						% mathtools - \coloneqq
+
+\usepackage{listings}						% listings - prints source code
+
+\usepackage{hyperref}						% hyperref - urls and things
+
+\usepackage{tikz}							% tikz - graphs
+
+% 	Additional
+\usepackage{graphicx}						% graphicx - importing graphics from file
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}	% change to helvetica
+
+\usepackage{forest}							% forest - easy trees
+\usepackage{tikzsymbols}					% tikzsymbols - just adds some symbols
+% tikzlibrary summary: 
+% tex.stackexchange.com/questions/42611/list-of-available-tikz-libraries-with-a-short-introduction/491626
+\usetikzlibrary{arrows.meta}				% arrows.meta - customizable arrow tips
+\usetikzlibrary{er}							% entity-relationship diagrams
+\usetikzlibrary{positioning} 				% relative positioning
+
+\usepackage{xcolor}							% xcolor - adds additional colors
+
+\usepackage{marginnote}						% marginnote - see name
+
+\usepackage{multirow}						% multirow - sort of a tabular environment of text
+\usepackage{bigdelim}						% bigdelim - used with multirow once to make brackets on tables
+\usepackage{array}							% array - extends arrary and tabular environment
+\usepackage{makecell}						% makecell - adjust cell cizes within tabular environment
+
+\usepackage[bottom]{footmisc}				% comment out to make footnotes not appear at bottom of page
+
+% Customizations
+
+\pretitle{\begin{center}\Large\bfseries}		% titling format
+\posttitle{\par\end{center}\vskip 0cm}
+\preauthor{\begin{center}\large}
+\postauthor{\end{center}}
+\predate{\par\normalsize\centering}
+\postdate{\par}
+
+\newtheoremstyle{customnumber} % name
+	{}% space above
+	{}% space below
+	{\normalfont}% body font
+	{}% indent 
+	{\bfseries}% head font
+	{:}% punctuation between head/body
+	{ }% space after head: " " = normal whitespace
+	{\thmname{#1}\thmnote{ #3}}% head format
+
+\newtheoremstyle{named}
+	{}
+	{}
+	{\normalfont}
+	{}
+	{\bfseries}
+	{.}
+	{ }
+	{\thmnote{#3}}
+
+\theoremstyle{customnumber}
+\newtheorem*{exercise}{Exercise}
+
+\theoremstyle{definition}
+\newtheorem{defi}{Definition}
+
+\newtheorem{ex}{Example}[section]
+
+\theoremstyle{named}
+\newtheorem*{namedtheorem}{}
+
+\newenvironment{absolutelynopagebreak}
+	{\par\nobreak\vfil\penalty0\vfilneg\vtop\bgroup}
+	{\par\xdef\tpd{\the\prevdepth}\egroup\prevdepth=\tpd}
+	
+\newcommand{\indep}{\raisebox{0.05em}{\rotatebox[origin=c]{90}{$\models$}}}
+
+\newcommand{\stcomp}[1]{{#1}^\complement}
+
+
+\lstset{tabsize=3, numbers=left, basicstyle=\ttfamily, escapeinside=~~, xleftmargin=-1cm}
+\let\origthelstnumber\thelstnumber
+\makeatletter
+\newcommand*\Suppressnumber{%
+	\lst@AddToHook{OnNewLine}{%
+		\let\thelstnumber\relax%
+		\advance\c@lstnumber-\@ne\relax%
+	}%
+}
+\newcommand*\Reactivatenumber{%
+	\lst@AddToHook{OnNewLine}{%
+		\let\thelstnumber\origthelstnumber%
+		\advance\c@lstnumber\@ne\relax%
+	}%
+}
+\makeatother
