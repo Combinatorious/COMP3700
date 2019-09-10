@@ -23,22 +23,36 @@ For the first version of the store mangement system, we want to start with the f
 	\textbf{Use Case:} add a product into the system\\
 	\textbf{Actors:} employees\\
 	\textbf{Goals:} update database to include new product\\
+	\textbf{Related use cases:} adding a customer to the database or recording a transaction (below)
 	\textbf{Preconditions:} interface is functional and connected to underlying database\\
 	\textbf{Postconditions:} The product database is updated with the item\\
 	\textbf{Steps:}
 		\begin{itemize}
-		\item the user navigates to a display of the product database
-		\item they click an add button and a prompt appears
-		\item they enter the information about the product (name, price)
-		\item they click a button and the database is updated with the new item
+		\item the user clicks a button to display the product database
+		\item the system displays the database
+		\item the user clicks a plus button 
+		\item the system displays a screen with text fields for the product info
+		\item the user enters the information and clicks an add button
+		\item the system updates the database and displays a confirmation message
+		\item the user clicks confirm 
+		\item the system returns to the main menu
 		\end{itemize}
-		
 	\textbf{Use case:} add a customer into the system\\
 	\textbf{Actors:} employees\\
 	\textbf{Goals:} update database to include new customer\\
-	\textbf{Related use cases:} adding a product (above)
-	\textbf{Preconditions, steps, postconditions:} Same as above just replace "product" with "customer" (also they'd be stored in separate databases).
-	
+	\textbf{Related use cases:} adding a product (above) or transaction (below)
+	\textbf{Preconditions, steps, postconditions:} Same as above just replace "product" with "customer"
+		\textbf{Steps:}
+		\begin{itemize}
+		\item the user clicks a button to display the customer database
+		\item the system displays the database
+		\item the user clicks a plus button 
+		\item the system displays a screen with text fields for the customer info
+		\item the user enters the information and clicks an add button
+		\item the system updates the database and displays a confirmation message
+		\item the user clicks confirm 
+		\item the system returns to the main menu
+		\end{itemize}
 	\textbf{Use case:} record a transaction\\
 	\textbf{Actors:} employees\\
 	\textbf{Goals:} update transaction records with new transaction (customer, product, price paid)\\
@@ -48,9 +62,23 @@ For the first version of the store mangement system, we want to start with the f
 \newpage
 	\textbf{Steps:} 
 		\begin{itemize}
-		\item the employee locates the product(s) to be purchased in the database (this can be done automatically via barcode etc.)
-		\item the employee uses the customers name (or email, username, phone number, etc) to locate the customer in the database
-		\item the employee reviews the summary info of the transaction to verify, and then confirms
+		\item the user clicks add purchase
+		\item the system prompts employee to scan barcode
+		\item the user scans the barcode 
+		\item the system identifies the product
+		\item the system displays a prompt for quantity of purchase
+		\item the user enters a value into the prompt
+		\item the system displays the customer database and a text field for name
+		\item the user starts typing the name
+		\item the system trims the database as the name is typed
+		\item the user selects the customer when they see them
+		\item the system displays a customer confirmation prompt
+		\item the user clicks confirm
+		\item the system displays transaction information (item, customer, price, tax) along with a confirm or cancel button
+		\item the user reviews the summary info of the transaction to verify, and then confirms
+		\item the system displays a success screen
+		\item the user clicks confirm
+		\item the system returns to the main menu
 		\end{itemize}
 	\begin{center} 
 	Generic screens (applicable to all three cases):
@@ -82,18 +110,39 @@ For the first version of the store mangement system, we want to start with the f
 %	\draw[-] (customer.east) -- ([yshift=\i * 0.5 em]purchases.west); 
 %	\draw[-] (product.west) -- ([yshift=\i * 0.5 em]purchases.east);
 %	}
-	\node[attribute] (customerID) [above=0.25in of customer] {customerID}
+	\node[attribute] (customerID) [above=0.25in of customer] {ID}
 	edge (customer);
 	\node[attribute] (customerName) [below=0.25in of customer] {name}
 	edge (customer);
 	\node[attribute] (customerEmail) [left=0.25in of customer] {email}
 	edge (customer);
+	\node[attribute] (customerAddress) [below left=0.25in and 0.25in of customer] {address}
+	edge (customer);
+	\node[attribute] (customerPhone) [above left=0.25in and 0.25in of customer] {phone}
+	edge (customer);
+	\node[attribute] (customerPayInfo) [below left=0.6in and 0in of customer] {payment info}
+	edge (customer);
 	
-	\node[attribute] (productID) [above=0.25in of product] {productID}
+	\node[attribute] (purchaseDate) [below left=0.25in and 0in of purchases] {date}
+	edge (purchases);
+	\node[attribute] (purchaseQuantity) [below right=0.25in and 0in of purchases] {quantity}
+	edge (purchases);
+	\node[attribute] (purchasePrice) [above left=0.25in and 0.25in of purchases] {price}
+	edge (purchases);
+	\node[attribute] (purchaseTax) [above right=0.25in and 0.25in of purchases] {tax}
+	edge (purchases);
+	\node[attribute] (purchaseCost) [above=0.3in of purchases] {cost}
+	edge (purchases);
+	
+	\node[attribute] (productID) [above=0.25in of product] {Barcode (ID)}
 	edge (product);
 	\node[attribute] (productName) [below=0.25in of product] {name}
 	edge (product);
 	\node[attribute] (productPrice) [right=0.25in of product] {price}
+	edge (product);
+	\node[attribute] (productQuantity) [below right=0.25in and 0.25in of product] {quantity}
+	edge (product);
+	\node[attribute] (productSupplier) [above right=0.2in and 0.35in of product] {supplier}
 	edge (product);
 	\end{tikzpicture}
 	\end{center}

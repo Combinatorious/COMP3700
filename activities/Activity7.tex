@@ -1,0 +1,65 @@
+\documentclass[notitlepage,11pt]{report}
+
+\input{../header.tex}
+
+\title{Activity 7}
+\author{}
+\date{}
+
+\begin{document}
+\maketitle
+\begin{center} Entities: \end{center}
+Products: barcode (ID), name, price, quantity, supplier)
+
+Customers: name, address, customerid, phone, payment info, email
+
+\begin{center} Relationships: \end{center}
+Purchases: date, quantity, price, tax, total cost
+
+\begin{center}
+	\begin{tikzpicture}
+	\node[entity] (customer) {customer};
+	\node[entity] (product) [right=3in of customer] {product};
+	\node[relationship] (purchases) [right=1in of customer] {purchases}				edge (customer) edge (product);
+%	\foreach \i in {-1, 1}{%
+%	\draw[-] (customer.east) -- ([yshift=\i * 0.5 em]purchases.west); 
+%	\draw[-] (product.west) -- ([yshift=\i * 0.5 em]purchases.east);
+%	}
+	\node[attribute] (customerID) [above=0.25in of customer] {ID}
+	edge (customer);
+	\node[attribute] (customerName) [below=0.25in of customer] {name}
+	edge (customer);
+	\node[attribute] (customerEmail) [left=0.25in of customer] {email}
+	edge (customer);
+	\node[attribute] (customerAddress) [below left=0.25in and 0.25in of customer] {address}
+	edge (customer);
+	\node[attribute] (customerPhone) [above left=0.25in and 0.25in of customer] {phone}
+	edge (customer);
+	\node[attribute] (customerPayInfo) [below left=0.6in and 0in of customer] {payment info}
+	edge (customer);
+	
+	\node[attribute] (purchaseDate) [below left=0.25in and 0in of purchases] {date}
+	edge (purchases);
+	\node[attribute] (purchaseQuantity) [below right=0.25in and 0in of purchases] {quantity}
+	edge (purchases);
+	\node[attribute] (purchasePrice) [above left=0.25in and 0.25in of purchases] {price}
+	edge (purchases);
+	\node[attribute] (purchaseTax) [above right=0.25in and 0.25in of purchases] {tax}
+	edge (purchases);
+	\node[attribute] (purchaseCost) [above=0.3in of purchases] {cost}
+	edge (purchases);
+	
+	\node[attribute] (productID) [above=0.25in of product] {Barcode (ID)}
+	edge (product);
+	\node[attribute] (productName) [below=0.25in of product] {name}
+	edge (product);
+	\node[attribute] (productPrice) [right=0.25in of product] {price}
+	edge (product);
+	\node[attribute] (productQuantity) [below right=0.25in and 0.25in of product] {quantity}
+	edge (product);
+	\node[attribute] (productSupplier) [above right=0.2in and 0.35in of product] {supplier}
+	edge (product);
+	\end{tikzpicture}
+\end{center}
+
+\end{document}
