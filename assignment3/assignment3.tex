@@ -1,4 +1,4 @@
-\documentclass[notitlepage]{report}
+\documentclass[notitlepage, 11pt]{report}
 
 \input{../header.tex}
 
@@ -45,6 +45,7 @@ For the first version of the store mangement system, we want to start with the f
 	\textbf{Related use case:} similar to product and customer cases\\
 	\textbf{Preconditions:} interface is set up and connected to transaction database, ideally the process is also set up to be somewhat automated\\
 	\textbf{Postconditions:} the database is updated with the transaction (ideally the system automatically breaks the purchase of multiple products into atomic purchases of each individual product)\\
+\newpage
 	\textbf{Steps:} 
 		\begin{itemize}
 		\item the employee locates the product(s) to be purchased in the database (this can be done automatically via barcode etc.)
@@ -53,8 +54,87 @@ For the first version of the store mangement system, we want to start with the f
 		\end{itemize}
 	
 	\item Draw the entity-relationship diagram for this system. We assume the minimal requirement with two entities: products and customers, and one relationship "a customer purchases a product".
+	\begin{center}
+	\begin{tikzpicture}
+	\node[entity] (customer) {customer};
+	\node[entity] (product) [right=3in of customer] {product};
+	\node[relationship] (purchases) [right=1in of customer] {purchases}				edge (customer) edge (product);
+%	\foreach \i in {-1, 1}{%
+%	\draw[-] (customer.east) -- ([yshift=\i * 0.5 em]purchases.west); 
+%	\draw[-] (product.west) -- ([yshift=\i * 0.5 em]purchases.east);
+%	}
+	\node[attribute] (customerID) [above=0.25in of customer] {customerID}
+	edge (customer);
+	\node[attribute] (customerName) [below=0.25in of customer] {name}
+	edge (customer);
+	\node[attribute] (customerEmail) [left=0.25in of customer] {email}
+	edge (customer);
+	
+	\node[attribute] (productID) [above=0.25in of product] {productID}
+	edge (product);
+	\node[attribute] (productName) [below=0.25in of product] {name}
+	edge (product);
+	\node[attribute] (productPrice) [right=0.25in of product] {price}
+	edge (product);
+	\end{tikzpicture}
+	\end{center}
 	\item Design the database logically, i.e., write the relations, attributes, and define keys.
+	
+	Relations:
+	\begin{itemize}
+		\item customer: (customerID (private key), name, email)
+		\item product: (productID (private key), name, price)
+		\item purchases: (purchaseID (private key), customerID (foreign key), productID (foreign key), price)
+	\end{itemize}
 	\item Design the database physically using SQL, i.e., write SQL code to create the tables for those relations.
+\Suppressnumber
+\begin{lstlisting}
+CREATE TABLE Customers (
+	CustomerID int NOT NULL PRIMARY KEY,
+	Name varchar(255),
+	Email varchar(255)
+);
+
+CREATE TABLE Products (
+	ProductID int NOT NULL PRIMARY KEY,
+	Name varchar(255),
+	Price float
+);
+~\newpage~
+CREATE TABLE Purchases (
+	PurchaseID int NOT NULL PRIMARY KEY,
+	CustomerID int FOREIGN KEY REFERENCES Customers(CustomerID),
+	ProductID int FOREIGN KEY REFERENCES Products(ProductID),
+	Price float
+);
+\end{lstlisting}
 	\item Insert data into the tables, with at least 5 products, 5 customers, and 10 purchases.
+\begin{lstlisting}
+INSERT INTO Customers (CustomerID, Name, Email)
+VALUES	(1, 'Alice Appleton', 'aappleton@yahoo.com'),
+			(2, 'Bob Baker', 'bbaker@gmail.com'),
+			(3, 'Charlie Wilson', 'cwilson@outlook.com'),
+			(4, 'Dan Glover', 'dglover@gmail.com'),
+			(5, 'Eve Mcgee', 'emcgee@icloud.com');
+
+INSERT INTO Products (ProductID, Name, Price)
+VALUES	(1, 'jacket', 59.99),
+			(2, 'pants', 21.95),
+			(3, 't-shirt', 14.99),
+			(4, 'dress', 44.95),
+			(5, 'shoes', 49.99);
+
+INSERT INTO Purchases (PurchaseID, CustomerID, ProductID, Price)
+VALUES	(1, 3, 2, 21.95),
+			(2, 5, 5, 41.55),
+			(3, 4, 5, 49.99),
+			(4, 2, 1, 59.99),
+			(5, 5, 2, 24.99),
+			(6, 3, 4, 44.95),
+			(7, 3, 3, 10.83),
+			(8, 1, 2, 21.95),
+			(9, 4, 5, 49.99),
+			(10, 1, 1, 51.12);
+\end{lstlisting}
 \end{enumerate}
 \end{document}
