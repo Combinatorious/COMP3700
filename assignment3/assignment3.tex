@@ -52,7 +52,26 @@ For the first version of the store mangement system, we want to start with the f
 		\item the employee uses the customers name (or email, username, phone number, etc) to locate the customer in the database
 		\item the employee reviews the summary info of the transaction to verify, and then confirms
 		\end{itemize}
+	\begin{center} 
+	Generic screens (applicable to all three cases):
 	
+	\begin{tikzpicture}
+	\draw (0,0) -- (4,0) -- (4,4) -- (0,4) -- (0,0);
+	\node[rectangle,draw] (AddProduct) at (2,3) {add product};
+	\node[rectangle,draw] (AddCustomer) at (2,2) {add customer};
+	\node[rectangle,draw] (AddPurchase) at (2,1) {add transaction};
+	\draw[->] (4,2) -- (6,2);
+	\draw (6,0) -- (10,0) -- (10,4) -- (6,4) -- (6,0);
+	\node (plus) at (9.5,3.5) {+};
+	\draw (6,0) -- (10,0) -- (10,3) -- (6,3) -- (6,0);
+	\node[rectangle] (Name) at (6.7,2.7) {Name};
+	\node[rectangle] (Attributes) at (8, 2.7) {$\cdots$};
+	\node[rectangle] (Attributes2) at (9, 2.7) {$\cdots$};
+	\draw (7.5,0) -- (7.5,3);
+	\draw (8.5,0) -- (8.5,3);
+	\draw (9.5,0) -- (9.5,3);
+	\end{tikzpicture}
+	\end{center}
 	\item Draw the entity-relationship diagram for this system. We assume the minimal requirement with two entities: products and customers, and one relationship "a customer purchases a product".
 	\begin{center}
 	\begin{tikzpicture}
@@ -86,6 +105,7 @@ For the first version of the store mangement system, we want to start with the f
 		\item product: (productID (private key), name, price)
 		\item purchases: (purchaseID (private key), customerID (foreign key), productID (foreign key), price)
 	\end{itemize}
+\newpage
 	\item Design the database physically using SQL, i.e., write SQL code to create the tables for those relations.
 \Suppressnumber
 \begin{lstlisting}
@@ -100,7 +120,6 @@ CREATE TABLE Products (
 	Name varchar(255),
 	Price float
 );
-~\newpage~
 CREATE TABLE Purchases (
 	PurchaseID int NOT NULL PRIMARY KEY,
 	CustomerID int FOREIGN KEY REFERENCES Customers(CustomerID),
