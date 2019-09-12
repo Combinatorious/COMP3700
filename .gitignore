@@ -8,3 +8,5 @@
 *.out
 *.db
 *.xd
+target/
+workspace.xml
