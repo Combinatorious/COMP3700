@@ -1,12 +1,18 @@
 \documentclass[notitlepage, 11pt]{report}
 
 \input{../header.tex}
+\usepackage{subcaption}
+\captionsetup[subfigure]{labelformat=empty}
+
+\setlength{\droptitle}{-5em}
 
 \geometry{left=1in, right=1in, top=1in, bottom=1in}
 
+\graphicspath{{../assignment3/UI/}}
 
 \title{Activity 6}
-\author{}
+\author{Tripp Isbell\\
+\texttt{cai0004@auburn.edu}}
 \date{}
 
 \begin{document}
@@ -25,31 +31,30 @@ Name: Adding a product into the system
 7. Click "ok" button & 8. Display main menu\\
 & (1) \\ \hline
 \end{tabular}
+\begin{figure}[h]
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{MainMenu}
+	\caption{(1)}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{AddProduct}
+	\caption{(2)}
+	\end{subfigure}
+\end{figure}
+\begin{figure}
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{ProdInfo}
+	\caption{(3)}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{Success}
+	\caption{(4)}
+	\end{subfigure}
+\end{figure}
 
-	\begin{center} 
-	\begin{tikzpicture}
-	\draw (0,0) -- (4,0) -- (4,4) -- (0,4) -- (0,0);
-	\node[rectangle,draw] (AddProduct) at (2,3) {products};
-	\node[rectangle,draw] (AddCustomer) at (2,2) {customers};
-	\node[rectangle,draw] (AddPurchase) at (2,1) {transactions};
-	\draw[->] (4,2) -- (6,2);
-	\draw (6,0) -- (10,0) -- (10,4) -- (6,4) -- (6,0);
-	\node (plus) at (9.5,3.5) {+};
-	\draw (6,0) -- (10,0) -- (10,3) -- (6,3) -- (6,0);
-	\node[rectangle] (Name) at (6.7,2.7) {Name};
-	\node[rectangle] (Attributes) at (8, 2.7) {$\cdots$};
-	\node[rectangle] (Attributes2) at (9, 2.7) {$\cdots$};
-	\draw (7.5,0) -- (7.5,3);
-	\draw (8.5,0) -- (8.5,3);
-	\draw (9.5,0) -- (9.5,3);
-	\draw (12,0) -- (16,0) -- (16,4) -- (12,4) -- (12,0);
-	\draw[->] (plus) -- (12,3.5);
-\foreach \i in {0,1,2,3}{%
-	\newcommand{\scaledi}{0.6*\i}
-	\draw (13.5,0.2 + \scaledi) -- (15.5, 0.2 +  \scaledi) -- (15.5, 0.6 + \scaledi) -- (13.5, 0.6 + \scaledi) -- (13.5, 0.2 + \scaledi);
-	
-}
-	\end{tikzpicture}
-	\end{center}
 
 \end{document}

@@ -93,7 +93,7 @@ CREATE TABLE Purchases (
 	Quantity INTEGER,
 	PRIMARY KEY("PurchaseID"),
 	FOREIGN KEY("CustomerID") REFERENCES Customers(CustomerID),
-	FOREIGN KEY("ProductID") REFERENCES Products(ProductID)
+	FOREIGN KEY("Barcode") REFERENCES Products(Barcode)
 );
 
 INSERT INTO Customers (CustomerID, Name, Email, Phone, Address, PaymentInfo)
@@ -115,7 +115,7 @@ VALUES	(1, 'jacket', 59.99, 'Jackets Inc.', 10),
 			(4, 'dress', 44.95, 'Dress store', 30),
 			(5, 'shoes', 49.99, 'Shoemart', 15);
 
-INSERT INTO Purchases (PurchaseID, CustomerID, ProductID, Price, Tax, Cost, 
+INSERT INTO Purchases (PurchaseID, CustomerID, Barcode, Price, Tax, Cost, 
 	Date, Quantity)
 VALUES	(1, 3, 2, 21.95, 0.05, 22.00, '10/4/2019', 1),
 			(2, 5, 5, 41.55, 1.00, 42.55, '10/5/2019', 1),

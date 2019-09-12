@@ -1,8 +1,12 @@
 \documentclass[notitlepage, 11pt]{report}
 
 \input{../header.tex}
+\usepackage{subcaption}
+\captionsetup[subfigure]{labelformat=empty}
 
 \geometry{left=1in, right=1in, top=1in, bottom=1in}
+
+\graphicspath{{./UI/}}
 
 \title{COMP3700 Assignment 3}
 \author{Tripp Isbell\\
@@ -11,7 +15,7 @@
 
 \begin{document}
 \maketitle
-For the first version of the store mangement system, we want to start with the following user stories:
+For the first version of the store management system, we want to start with the following user stories:
 \begin{itemize}
 	\item As a user, I want to add a new product into the system.
 	\item As a user, I want to add a new customer into the system.
@@ -28,14 +32,14 @@ For the first version of the store mangement system, we want to start with the f
 	\textbf{Postconditions:} The product database is updated with the item\\
 	\textbf{Steps:}
 		\begin{itemize}
-		\item the user clicks a button to display the product database
-		\item the system displays the database
+		\item[(1)] the user clicks a button to display the product database
+		\item[(2)] the system displays the database
 		\item the user clicks a plus button 
-		\item the system displays a screen with text fields for the product info
+		\item[(3)] the system displays a screen with text fields for the product info
 		\item the user enters the information and clicks an add button
-		\item the system updates the database and displays a confirmation message
+		\item[(4)] the system updates the database and displays a confirmation message
 		\item the user clicks confirm 
-		\item the system returns to the main menu
+		\item[(1)] the system returns to the main menu
 		\end{itemize}
 	\textbf{Use case:} add a customer into the system\\
 	\textbf{Actors:} employees\\
@@ -44,14 +48,14 @@ For the first version of the store mangement system, we want to start with the f
 	\textbf{Preconditions, steps, postconditions:} Same as above just replace "product" with "customer"\\
 		\textbf{Steps:}
 		\begin{itemize}
-		\item the user clicks a button to display the customer database
-		\item the system displays the database
+		\item[(1)] the user clicks a button to display the customer database
+		\item[(2)] the system displays the database
 		\item the user clicks a plus button 
-		\item the system displays a screen with text fields for the customer info
+		\item[(3)] the system displays a screen with text fields for the customer info
 		\item the user enters the information and clicks an add button
-		\item the system updates the database and displays a confirmation message
+		\item[(4)] the system updates the database and displays a confirmation message
 		\item the user clicks confirm 
-		\item the system returns to the main menu
+		\item[(1)] the system returns to the main menu
 		\end{itemize}
 	\textbf{Use case:} record a transaction\\
 	\textbf{Actors:} employees\\
@@ -61,44 +65,110 @@ For the first version of the store mangement system, we want to start with the f
 	\textbf{Postconditions:} the database is updated with the transaction (ideally the system automatically breaks the purchase of multiple products into atomic purchases of each individual product)\\
 	\textbf{Steps:} 
 		\begin{itemize}
-		\item the user clicks add purchase
-		\item the system prompts employee to scan barcode
+		\item[(1)] the user clicks add purchase
+		\item[(2)] the system prompts employee to scan barcode
 		\item the user scans the barcode 
 		\item the system identifies the product
-		\item the system displays a prompt for quantity of purchase
+		\item[(3)] the system displays a prompt for quantity of purchase
 		\item the user enters a value into the prompt
-		\item the system displays the customer database and a text field for name
+		\item[(4)] the system displays the customer database and a text field for name
 		\item the user starts typing the name
 		\item the system trims the database as the name is typed
 		\item the user selects the customer when they see them
-		\item the system displays a customer confirmation prompt
+		\item[(5)] the system displays a customer confirmation prompt
 		\item the user clicks confirm
-		\item the system displays transaction information (item, customer, price, tax) along with a confirm or cancel button
+		\item[(6)] the system displays transaction information (item, customer, price, tax) along with a confirm or cancel button
 		\item the user reviews the summary info of the transaction to verify, and then confirms
-		\item the system displays a success screen
+		\item[(7)] the system displays a success screen (same screen as the other two)
 		\item the user clicks confirm
-		\item the system returns to the main menu
+		\item[(1)] the system returns to the main menu
 		\end{itemize}
-	\begin{center} 
-	Generic screens (applicable to all three cases):
-	
-	\begin{tikzpicture}
-	\draw (0,0) -- (4,0) -- (4,4) -- (0,4) -- (0,0);
-	\node[rectangle,draw] (AddProduct) at (2,3) {add product};
-	\node[rectangle,draw] (AddCustomer) at (2,2) {add customer};
-	\node[rectangle,draw] (AddPurchase) at (2,1) {add transaction};
-	\draw[->] (4,2) -- (6,2);
-	\draw (6,0) -- (10,0) -- (10,4) -- (6,4) -- (6,0);
-	\node (plus) at (9.5,3.5) {+};
-	\draw (6,0) -- (10,0) -- (10,3) -- (6,3) -- (6,0);
-	\node[rectangle] (Name) at (6.7,2.7) {Name};
-	\node[rectangle] (Attributes) at (8, 2.7) {$\cdots$};
-	\node[rectangle] (Attributes2) at (9, 2.7) {$\cdots$};
-	\draw (7.5,0) -- (7.5,3);
-	\draw (8.5,0) -- (8.5,3);
-	\draw (9.5,0) -- (9.5,3);
-	\end{tikzpicture}
-	\end{center}
+\begin{figure}
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{MainMenu}
+	\caption{(1)}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{AddProduct}
+	\caption{(2)}
+	\end{subfigure}
+\end{figure}
+\begin{figure}
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{ProdInfo}
+	\caption{(3)}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{Success}
+	\caption{(4)}
+	\end{subfigure}
+\end{figure}
+
+\begin{figure}
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{MainMenu}
+	\caption{(1)}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{AddCustomer}
+	\caption{(2)}
+	\end{subfigure}
+\end{figure}
+\begin{figure}
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{CustInfo}
+	\caption{(3)}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{Success}
+	\caption{(4)}
+	\end{subfigure}
+\end{figure}
+
+\begin{figure}
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{MainMenu}
+	\caption{(1)}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{Barcode}
+	\caption{(2)}
+	\end{subfigure}
+\end{figure}
+\begin{figure}
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{Quantity}
+	\caption{(3)}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{CustSearch}
+	\caption{(4)}
+	\end{subfigure}
+\end{figure}
+\begin{figure}
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{CustConfirm}
+	\caption{(5)}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{PurchaseConfirm}
+	\caption{(6)}
+	\end{subfigure}
+\end{figure}
 	\item Draw the entity-relationship diagram for this system. We assume the minimal requirement with two entities: products and customers, and one relationship "a customer purchases a product".
 	\begin{center}
 	\begin{tikzpicture}
@@ -187,7 +257,7 @@ CREATE TABLE Purchases (
 	Quantity INTEGER,
 	PRIMARY KEY("PurchaseID"),
 	FOREIGN KEY("CustomerID") REFERENCES Customers(CustomerID),
-	FOREIGN KEY("ProductID") REFERENCES Products(ProductID)
+	FOREIGN KEY("Barcode") REFERENCES Products(Barcode)
 );
 
 \end{lstlisting}
@@ -205,14 +275,14 @@ VALUES	(1, 'Alice Appleton', 'aappleton@yahoo.com', '334-555-6123',
 			(5, 'Eve Mcgee', 'emcgee@icloud.com', '121-644-1345', 
 		'101 College St', 'credit card');
 
-INSERT INTO Products (ProductID, Name, Price, Supplier, Quantity)
+INSERT INTO Products (Barcode, Name, Price, Supplier, Quantity)
 VALUES	(1, 'jacket', 59.99, 'Jackets Inc.', 10),
 			(2, 'pants', 21.95, 'Nike', 25),
 			(3, 't-shirt', 14.99, 'Old Navy', 100),
 			(4, 'dress', 44.95, 'Dress store', 30),
 			(5, 'shoes', 49.99, 'Shoemart', 15);
 
-INSERT INTO Purchases (PurchaseID, CustomerID, ProductID, Price, Tax, Cost, 
+INSERT INTO Purchases (PurchaseID, CustomerID, Barcode, Price, Tax, Cost, 
 	Date, Quantity)
 VALUES	(1, 3, 2, 21.95, 0.05, 22.00, '10/4/2019', 1),
 			(2, 5, 5, 41.55, 1.00, 42.55, '10/5/2019', 1),
