@@ -1,1 +1,37 @@
-\documentclass[notitlepage]{report}
+\documentclass[notitlepage,11pt]{report}
+
+\input{../header.tex}
+
+\geometry{left=1in, right=1in, top=1in, bottom=1in}
+\title{Activity 8}
+\author{Tripp Isbell\\
+\texttt{cai0004@auburn.edu}}
+\date{}
+
+\begin{document}
+\tikzstyle{class}=[rectangle, draw=black, fill=white, rounded corners, drop shadow, text centered, anchor=north, text width=7cm]
+\maketitle
+\begin{center}
+\begin{tikzpicture}
+	\node (Account) [class, rectangle split, rectangle split parts=2]
+		{
+			\textbf{Account}
+			\nodepart{second}fields: balance\newline methods: basic withdraw() and\newline basic deposit()
+		};
+	\node (Checking) [class, rectangle split, rectangle split parts=2, below left=1in and -1in of Account] 
+		{
+			\textbf{Checking Account}
+			\nodepart{second}fields: balance\newline methods: same deposit() \newline withdraw() with overdraft penalty
+		};
+	\node (Savings) [class, rectangle split, rectangle split parts=2, below right=1in and -1in of Account]
+		{
+			\textbf{Savings Account}
+			\nodepart{second}fields: balance\newline methods: deposit() with monthly deposit total for fee \newline withdraw() with limited monthly count
+		};
+	\begin{scope}[>={Stealth[black]}]
+	\path[->] (Account) edge (Checking);
+	\path[->] (Account) edge (Savings);
+	\end{scope}
+\end{tikzpicture}
+\end{center}
+\end{document}
