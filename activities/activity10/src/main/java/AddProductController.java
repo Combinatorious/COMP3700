@@ -17,5 +17,10 @@ public class AddProductController implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         JOptionPane.showMessageDialog(myView, "I'll make sure to save that for you.");
+        myView.nameField.setText("");
+        myView.barcodeField.setText("");
+        myView.priceField.setText("");
+        myView.quantityField.setText("");
+        myView.supplierField.setText("");
     }
 }
