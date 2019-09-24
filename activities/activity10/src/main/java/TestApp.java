@@ -2,9 +2,9 @@ import javax.swing.*;
 
 public class TestApp {
     public static void main(String[] args) {
-        AddProductView testView = new AddProductView();
+        MainMenuView testView = new MainMenuView();
         testView.pack();
         testView.setVisible(true);
-        AddProductController testController = new AddProductController(testView);
+        MainMenuController testController = new MainMenuController(testView);
     }
 }

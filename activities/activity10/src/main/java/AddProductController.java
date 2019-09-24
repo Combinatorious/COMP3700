@@ -32,7 +32,7 @@ public class AddProductController implements ActionListener{
                     Double.parseDouble(myView.quantityField.getText()),
                     myView.supplierField.getText()
             );
-            
+
             dataAccess.saveProduct(inputProduct);
         }
         catch (Exception err) {

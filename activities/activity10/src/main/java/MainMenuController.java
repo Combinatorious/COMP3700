@@ -1,0 +1,31 @@
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class MainMenuController implements ActionListener {
+    MainMenuView myView;
+
+    public MainMenuController(MainMenuView view) {
+        myView = view;
+        myView.addCustomerButton.addActionListener(this);
+        myView.addProductButton.addActionListener(this);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == myView.addCustomerButton) {
+            AddCustomerView view = new AddCustomerView();
+            view.pack();
+            view.setVisible(true);
+            AddCustomerController ctrl = new AddCustomerController(view);
+        }
+        else {
+            AddProductView view = new AddProductView();
+            view.pack();
+            view.setVisible(true);
+            AddProductController ctrl = new AddProductController(view);
+        }
+    }
+
+
+}
