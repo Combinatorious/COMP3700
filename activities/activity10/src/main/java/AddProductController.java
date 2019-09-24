@@ -14,8 +14,10 @@ public class AddProductController implements ActionListener{
         myView.saveButton.addActionListener(this);
         myView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+
         dataAccess = new SQLiteWrapper();
         dataAccess.connect();
+
     }
 
     @Override
@@ -30,7 +32,7 @@ public class AddProductController implements ActionListener{
                     Double.parseDouble(myView.quantityField.getText()),
                     myView.supplierField.getText()
             );
-
+            
             dataAccess.saveProduct(inputProduct);
         }
         catch (Exception err) {
