@@ -1,14 +1,18 @@
 import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MainMenuController implements ActionListener {
     MainMenuView myView;
+    DataAdapter dataAccess;
 
-    public MainMenuController(MainMenuView view) {
+    public MainMenuController(MainMenuView view, DataAdapter dataAccess) {
         myView = view;
         myView.addCustomerButton.addActionListener(this);
         myView.addProductButton.addActionListener(this);
+
+        this.dataAccess = dataAccess;
     }
 
     @Override
@@ -17,13 +21,13 @@ public class MainMenuController implements ActionListener {
             AddCustomerView view = new AddCustomerView();
             view.pack();
             view.setVisible(true);
-            AddCustomerController ctrl = new AddCustomerController(view);
+            AddCustomerController ctrl = new AddCustomerController(view, dataAccess);
         }
         else {
             AddProductView view = new AddProductView();
             view.pack();
             view.setVisible(true);
-            AddProductController ctrl = new AddProductController(view);
+            AddProductController ctrl = new AddProductController(view, dataAccess);
         }
     }
 

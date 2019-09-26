@@ -4,14 +4,14 @@ import java.awt.event.ActionListener;
 
 public class AddCustomerController implements ActionListener{
     private AddCustomerView myView;
-    SQLiteWrapper dataAccess;
+    DataAdapter dataAccess;
 
-    public AddCustomerController(AddCustomerView view) {
+    public AddCustomerController(AddCustomerView view, DataAdapter dataAccess) {
         myView = view;
         myView.saveButton.addActionListener(this);
         myView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        dataAccess = new SQLiteWrapper();
+        this.dataAccess = dataAccess;
         dataAccess.connect();
     }
 

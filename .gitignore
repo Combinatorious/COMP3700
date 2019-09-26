@@ -12,3 +12,4 @@ target/
 workspace.xml
 Store/
 ignore/
+*.mov

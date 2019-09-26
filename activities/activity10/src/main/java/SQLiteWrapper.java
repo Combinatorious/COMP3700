@@ -1,6 +1,6 @@
 import java.sql.*;
 
-public class SQLiteWrapper {
+public class SQLiteWrapper implements DataAdapter {
     Connection conn = null;
     String url;
 
@@ -14,7 +14,7 @@ public class SQLiteWrapper {
         }
     }
 
-    public void connect() {
+    public int connect() {
         try {
 
             if (conn != null) {
@@ -52,10 +52,23 @@ public class SQLiteWrapper {
 
         } catch (Exception e) {
             System.out.println(e.getMessage());
+            return DataAdapter.ERROR;
         }
+        return DataAdapter.SUCCESS;
     }
 
-    public void saveProduct(ProductModel product) {
+    public int disconnect() {
+        try {
+            conn.close();
+        }
+        catch (Exception e) {
+            System.out.println("Error disconnecting from database.");
+            return DataAdapter.ERROR;
+        }
+        return DataAdapter.SUCCESS;
+    }
+
+    public int saveProduct(ProductModel product) {
 
         if (conn != null) {
             try {
@@ -81,8 +94,12 @@ public class SQLiteWrapper {
                 }
             } catch (Exception ex) {
                 ex.printStackTrace();
+                return DataAdapter.ERROR;
             }
+            return DataAdapter.SUCCESS;
         }
+
+        return DataAdapter.ERROR;
     }
 
     public ProductModel loadProduct(int barcode) {
@@ -104,7 +121,7 @@ public class SQLiteWrapper {
         return product;
     }
 
-    public void saveCustomer(CustomerModel customer) {
+    public int saveCustomer(CustomerModel customer) {
         if (conn != null) {
             try {
                 Statement stmt = conn.createStatement();
@@ -132,8 +149,11 @@ public class SQLiteWrapper {
             }
             catch(Exception ex) {
                 ex.printStackTrace();
+                return DataAdapter.ERROR;
             }
+            return DataAdapter.SUCCESS;
         }
+        return DataAdapter.ERROR;
     }
     public CustomerModel loadCustomer(int customerID) {
         CustomerModel customer = null;

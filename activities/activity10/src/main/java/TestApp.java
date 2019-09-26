@@ -5,6 +5,6 @@ public class TestApp {
         MainMenuView testView = new MainMenuView();
         testView.pack();
         testView.setVisible(true);
-        MainMenuController testController = new MainMenuController(testView);
+        MainMenuController testController = new MainMenuController(testView, new SQLiteWrapper());
     }
 }
