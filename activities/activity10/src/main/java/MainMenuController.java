@@ -11,6 +11,7 @@ public class MainMenuController implements ActionListener {
         myView = view;
         myView.addCustomerButton.addActionListener(this);
         myView.addProductButton.addActionListener(this);
+        myView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         this.dataAccess = dataAccess;
     }

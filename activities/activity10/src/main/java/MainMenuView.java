@@ -1,7 +1,7 @@
 import javax.swing.*;
 
 public class MainMenuView extends JFrame {
-    public static final int FRAME_HEIGHT = 1200, FRAME_WIDTH = 800;
+    public static final int FRAME_HEIGHT = 1200, FRAME_WIDTH = 1000;
 
     JButton addCustomerButton = new JButton("Add Customer");
     JButton addProductButton = new JButton("Add Product");

@@ -12,7 +12,7 @@ public class AddProductController implements ActionListener{
     public AddProductController(AddProductView view, DataAdapter dataAccess) {
         myView = view;
         myView.saveButton.addActionListener(this);
-        myView.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        myView.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 
         this.dataAccess = dataAccess;
