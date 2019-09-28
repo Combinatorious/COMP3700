@@ -2,20 +2,21 @@ import java.sql.*;
 
 public class SQLiteWrapper implements DataAdapter {
     Connection conn = null;
-    String url;
+    /* Database name, will be created in working directory if none exists */
+    public static final String url = "jdbc:sqlite:activity11.db";
 
-    public SQLiteWrapper() {
-        url = "jdbc:sqlite:activity10.db";
-        try {
-            Class.forName("org.sqlite.JDBC");
-            conn = DriverManager.getConnection(url);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
+
+    /*
+    Connects to database in working directory with name in second part of URL above.
+    If none exists, creates one.
+    Also creates tables for products and customers if none exist.
+    Also prints out current records in db.
+     */
     public int connect() {
         try {
+
+            conn = DriverManager.getConnection(url);
 
             if (conn != null) {
                 Statement stmt = conn.createStatement();
@@ -41,7 +42,8 @@ public class SQLiteWrapper implements DataAdapter {
                 System.out.println("Products");
                 while (rs.next())
                     System.out.println(rs.getString(1) + " " + rs.getString(2)
-                            + " " + rs.getString(3) + " " + rs.getString(4));
+                            + " " + rs.getString(3) + " " + rs.getString(4)
+                            + " " + rs.getString(5));
                 rs = stmt.executeQuery("SELECT * FROM Customer");
                 System.out.println("Customers");
                 while (rs.next())
