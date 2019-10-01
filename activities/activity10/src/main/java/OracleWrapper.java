@@ -2,7 +2,7 @@
     TBI
  */
 public class OracleWrapper implements DataAdapter {
-    public int connect() {
+    public int connect(String fileName) {
         return DataAdapter.ERROR;
     }
 

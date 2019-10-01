@@ -3,7 +3,7 @@ public interface DataAdapter {
     public static final int SUCCESS = 1;
     public static final int ERROR = 0;
 
-    public int connect();
+    public int connect(String fileName);
     public int disconnect();
 
     public ProductModel loadProduct(int barcode);

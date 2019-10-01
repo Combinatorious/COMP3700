@@ -28,7 +28,7 @@ public class AddProductUI extends JFrame {
         this.setDefaultCloseOperation(DISPOSE_ON_CLOSE); //TBI: disconnect on close
 
         dataAccess = Application.getInstance().getDataAdapter();
-        dataAccess.connect();
+        dataAccess.connect(Application.getInstance().dbFileName);
 
         JPanel field1 = new JPanel();
         field1.add(new JLabel("Name:"));

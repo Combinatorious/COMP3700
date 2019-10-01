@@ -3,7 +3,7 @@ import java.sql.*;
 public class SQLiteWrapper implements DataAdapter {
     Connection conn = null;
     /* Database name, will be created in working directory if none exists */
-    public static final String url = "jdbc:sqlite:activity11.db";
+    public static final String url = "jdbc:sqlite:src/main/resources/databases/";
 
 
 
@@ -13,10 +13,10 @@ public class SQLiteWrapper implements DataAdapter {
     Also creates tables for products and customers if none exist.
     Also prints out current records in db.
      */
-    public int connect() {
+    public int connect(String fileName) {
         try {
 
-            conn = DriverManager.getConnection(url);
+            conn = DriverManager.getConnection(url + fileName);
 
             if (conn != null) {
                 Statement stmt = conn.createStatement();
