@@ -1,0 +1,44 @@
+\documentclass[notitlepage,11pt]{report}
+
+\input{../../header.tex}
+
+\geometry{margin=1in}
+
+\title{Activity 12}
+\author{Tripp Isbell\\
+	\texttt{cai0004@auburn.edu}}
+\date{}
+
+\graphicspath{{./UI/}}
+
+\begin{document}
+\maketitle
+
+\textbf{Use case: Add Purchase}\\
+\textbf{Actors:} employees\\
+\textbf{Goals:} update database to record a transaction\\
+
+\begin{itemize}
+	\item User clicks a button on main menu to open "record transaction" page
+	\item The system displays a screen with text fields for purchase ID, product ID, customer ID, and quantity
+	\item The user enters in the information and clicks "record"
+	\item The system displays the product name, customer name, product price (calculated for quantity), and current date for confirmation
+	\item The user reviews the information and clicks "confirm transaction"
+	\item The system saves the transaction information to the database and displays a success message
+\end{itemize}
+
+\begin{figure}[h]
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{AddPurchase}
+	\caption{(1)}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+	\centering
+	\includegraphics[scale=0.12]{PurchaseConfirm}
+	\caption{(2)}
+	\end{subfigure}
+\end{figure}
+
+
+\end{document}

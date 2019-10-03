@@ -5,6 +5,9 @@ public class ProductModel {
 
     public static final String[] COL_NAMES = {"Barcode", "Name", "Price", "Quantity", "Supplier"};
 
+    /*
+    TODO: handle barcode automatically in database
+     */
     int barcode;
     String name;
     double price;
