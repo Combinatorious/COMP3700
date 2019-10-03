@@ -14,49 +14,40 @@ public class SQLiteWrapper implements DataAdapter {
     Also prints out current records in db.
      */
     public int connect(String fileName) {
-        try {
+        if (conn == null) {
+            try {
 
-            conn = DriverManager.getConnection(url + fileName);
+                conn = DriverManager.getConnection(url + fileName);
 
-            if (conn != null) {
-                Statement stmt = conn.createStatement();
+                if (conn != null) {
+                    Statement stmt = conn.createStatement();
 
-                String create = "CREATE TABLE IF NOT EXISTS Product (\n"
-                                + "    Barcode integer PRIMARY KEY,\n"
-                                + "    Name text,\n"
-                                + "    Price real,\n"
-                                + "    Quantity real,\n"
-                                + "    Supplier text\n);";
-                stmt.execute(create);
+                    String create = "CREATE TABLE IF NOT EXISTS Product (\n"
+                            + "    Barcode integer PRIMARY KEY,\n"
+                            + "    Name text,\n"
+                            + "    Price real,\n"
+                            + "    Quantity real,\n"
+                            + "    Supplier text\n);";
+                    stmt.execute(create);
 
-                create = "CREATE TABLE IF NOT EXISTS Customer (\n"
-                        + "    CustomerID integer PRIMARY KEY,\n"
-                        + "    Name text,\n"
-                        + "    Email text,\n"
-                        + "    Phone text,\n"
-                        + "    Address text,\n"
-                        + "    PaymentInfo text\n);";
-                stmt.execute(create);
+                    create = "CREATE TABLE IF NOT EXISTS Customer (\n"
+                            + "    CustomerID integer PRIMARY KEY,\n"
+                            + "    Name text,\n"
+                            + "    Email text,\n"
+                            + "    Phone text,\n"
+                            + "    Address text,\n"
+                            + "    PaymentInfo text\n);";
+                    stmt.execute(create);
 
-                ResultSet rs = stmt.executeQuery("SELECT * FROM Product");
-                System.out.println("Products");
-                while (rs.next())
-                    System.out.println(rs.getString(1) + " " + rs.getString(2)
-                            + " " + rs.getString(3) + " " + rs.getString(4)
-                            + " " + rs.getString(5));
-                rs = stmt.executeQuery("SELECT * FROM Customer");
-                System.out.println("Customers");
-                while (rs.next())
-                    System.out.println(rs.getString(1) + " " + rs.getString(2)
-                            + " " + rs.getString(3) + " " + rs.getString(4)
-                            + " " + rs.getString(5) + " " + rs.getString(6));
+                }
+
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                return DataAdapter.ERROR;
             }
-
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return DataAdapter.ERROR;
+            return DataAdapter.SUCCESS;
         }
-        return DataAdapter.SUCCESS;
+        else return DataAdapter.ALREADY_CONNECTED;
     }
 
     public int disconnect() {
@@ -67,6 +58,7 @@ public class SQLiteWrapper implements DataAdapter {
             System.out.println("Error disconnecting from database.");
             return DataAdapter.ERROR;
         }
+        conn = null;
         return DataAdapter.SUCCESS;
     }
 
@@ -121,6 +113,42 @@ public class SQLiteWrapper implements DataAdapter {
             ex.printStackTrace();
         }
         return product;
+    }
+
+    /*
+        Loads all products in the current database into a 2d String array for display
+     */
+    public String[][] loadAllProducts() {
+        return loadAllFromTable("Product");
+
+    }
+
+    public String[][] loadAllCustomers() {
+        return loadAllFromTable("Customer");
+    }
+
+    private String[][] loadAllFromTable(String table) {
+        if (conn == null) {
+            return null;
+        }
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM " + table);
+            int columns = rs.getMetaData().getColumnCount();
+            String[][] result = new String[getRowCount(table)][columns];
+            int i = 0;
+            while (rs.next()) {
+                for (int j = 0; j < columns; j++) {
+                    result[i][j] = rs.getString(j + 1);
+                }
+                i++;
+            }
+            return result;
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
 
     public int saveCustomer(CustomerModel customer) {
@@ -179,6 +207,24 @@ public class SQLiteWrapper implements DataAdapter {
         return customer;
     }
 
+    /*
+     Result set row counter ripped off of Stack Overflow
+     https://stackoverflow.com/a/8292514
+     */
+    private int getRowCount(String table) {
+        if (conn == null) {
+            return 0;
+        }
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT COUNT(1) FROM " + table);
+            return rs.next() ? rs.getInt(1) : 0;
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return 0;
+    }
 
 }
 

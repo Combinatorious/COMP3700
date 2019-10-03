@@ -9,6 +9,7 @@ public class AddCustomerUI extends JFrame {
     public static final int FRAME_HEIGHT = 1200, FRAME_WIDTH = 800, FIELD_WIDTH = 30;
 
     DataAdapter dataAccess; //need this out here to disconnect on close
+    CustomerUI parent;
 
     JTextField nameField = new JTextField(FIELD_WIDTH);
     JTextField customerIDField = new JTextField(FIELD_WIDTH);
@@ -66,7 +67,6 @@ public class AddCustomerUI extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                dataAccess.disconnect();
                 AddCustomerUI.this.dispose();
             }
         });
@@ -106,6 +106,10 @@ public class AddCustomerUI extends JFrame {
             phoneField.setText("");
             addressField.setText("");
             paymentInfoField.setText("");
+
+            if (parent != null) {
+                parent.updateTable();
+            }
         }
     }
 }

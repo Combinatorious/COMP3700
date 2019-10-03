@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 public class MainMenuUI extends JFrame {
     public static final int FRAME_HEIGHT = 1200, FRAME_WIDTH = 1000;
 
-    JButton addCustomerButton = new JButton("Add Customer");
-    JButton addProductButton = new JButton("Add Product");
+    JButton customerButton = new JButton("Customers");
+    JButton productButton = new JButton("Products");
 
     public MainMenuUI() {
         this.setTitle("Main Menu");
@@ -15,23 +15,23 @@ public class MainMenuUI extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         JPanel button1 = new JPanel();
-        button1.add(addCustomerButton);
+        button1.add(customerButton);
         this.getContentPane().add(button1);
 
         JPanel button2 = new JPanel();
-        button2.add(addProductButton);
+        button2.add(productButton);
         this.getContentPane().add(button2);
 
-        addCustomerButton.addActionListener(new ActionListener() {
+        customerButton.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
-                new AddCustomerUI().run();;
+                new CustomerUI().run();;
             }
         });
 
-        addProductButton.addActionListener(new ActionListener() {
+        productButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddProductUI().run();
+                new ProductUI().run();
             }
         });
     }

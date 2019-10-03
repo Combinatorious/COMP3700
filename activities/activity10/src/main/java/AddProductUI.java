@@ -12,6 +12,7 @@ public class AddProductUI extends JFrame {
     public static final int FRAME_HEIGHT = 1200, FRAME_WIDTH = 800, FIELD_WIDTH = 30;
 
     DataAdapter dataAccess;
+    ProductUI parent;
 
     JTextField nameField = new JTextField(FIELD_WIDTH);
     JTextField barcodeField = new JTextField(FIELD_WIDTH);
@@ -64,7 +65,6 @@ public class AddProductUI extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                dataAccess.disconnect();
                 AddProductUI.this.dispose();
             }
         });
@@ -102,6 +102,10 @@ public class AddProductUI extends JFrame {
             priceField.setText("");
             quantityField.setText("");
             supplierField.setText("");
+
+            if (parent != null) {
+                parent.updateTable();
+            }
         }
     }
 

@@ -3,6 +3,8 @@
  */
 public class ProductModel {
 
+    public static final String[] COL_NAMES = {"Barcode", "Name", "Price", "Quantity", "Supplier"};
+
     int barcode;
     String name;
     double price;

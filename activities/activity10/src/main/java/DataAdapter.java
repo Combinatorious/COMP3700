@@ -2,6 +2,7 @@ public interface DataAdapter {
 
     public static final int SUCCESS = 1;
     public static final int ERROR = 0;
+    public static final int ALREADY_CONNECTED = 2;
 
     public int connect(String fileName);
     public int disconnect();
@@ -14,4 +15,7 @@ public interface DataAdapter {
 // TBI:
 //    public PurchaseModel loadPurchase(int purchaseID);
 //    public int savePurchase(PurchaseModel purchase);
+
+    public String[][] loadAllProducts();
+    public String[][] loadAllCustomers();
 }
