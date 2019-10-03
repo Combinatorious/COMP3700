@@ -26,6 +26,14 @@ public class OracleWrapper implements DataAdapter {
         return DataAdapter.ERROR;
     }
 
+    public PurchaseModel loadPurchase(int purchaseID) {
+        return null;
+    }
+
+    public int savePurchase(PurchaseModel purchase) {
+        return DataAdapter.ERROR;
+    }
+
     public String[][] loadAllProducts() {
         return null;
     }

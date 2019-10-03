@@ -39,6 +39,17 @@ public class SQLiteWrapper implements DataAdapter {
                             + "    PaymentInfo text\n);";
                     stmt.execute(create);
 
+                    create = "CREATE TABLE IF NOT EXISTS Purchase (\n"
+                            + "    PurchaseID integer PRIMARY KEY,\n"
+                            + "    Date text,\n"
+                            + "    Barcode integer,\n"
+                            + "    CustomerID integer,\n"
+                            + "    Quantity real,\n"
+                            + "    Price real,\n"
+                            + "    FOREIGN KEY(Barcode) REFERENCES Product(Barcode),\n"
+                            + "    FOREIGN KEY(CustomerID) REFERENCES Customer(CustomerID)\n);";
+                    stmt.execute(create);
+
                 }
 
             } catch (Exception e) {
@@ -185,6 +196,7 @@ public class SQLiteWrapper implements DataAdapter {
         }
         return DataAdapter.ERROR;
     }
+
     public CustomerModel loadCustomer(int customerID) {
         CustomerModel customer = null;
         try {
@@ -207,10 +219,64 @@ public class SQLiteWrapper implements DataAdapter {
         return customer;
     }
 
-    /*
-     Result set row counter ripped off of Stack Overflow
-     https://stackoverflow.com/a/8292514
-     */
+    public int savePurchase(PurchaseModel purchase) {
+        if (conn != null) {
+            try {
+                Statement stmt = conn.createStatement();
+                if (loadPurchase(purchase.customerID) == null) {
+                    stmt.execute("INSERT INTO Purchase(PurchaseID, Date, Barcode, CustomerID, Quantity, Price) VALUES ("
+                            + purchase.purchaseID + ","
+                            + '\'' + purchase.date + '\'' + ","
+                            + purchase.barcode + ","
+                            + purchase.customerID + ","
+                            + purchase.quantity + ","
+                            + purchase.price + ")"
+                    );
+                }
+                else {
+                    stmt.executeUpdate("UPDATE Purchase SET "
+                            + "PurchaseID = " + purchase.purchaseID + ","
+                            + "Date = " + '\'' + purchase.date + '\'' + ","
+                            + "Barcode = " + purchase.barcode + ","
+                            + "CustomerID = " + purchase.customerID + ","
+                            + "Quantity = " + purchase.quantity + ","
+                            + "Price = " + purchase.price +
+                            " WHERE PurchaseId = " + purchase.purchaseID
+                    );
+                }
+            }
+            catch(Exception ex) {
+                ex.printStackTrace();
+                return DataAdapter.ERROR;
+            }
+            return DataAdapter.SUCCESS;
+        }
+        return DataAdapter.ERROR;
+    }
+
+    public PurchaseModel loadPurchase(int purchaseID) {
+        PurchaseModel purchase = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Purchase WHERE PurchaseID = " + purchaseID);
+            if (rs.next()) {
+                purchase = new PurchaseModel(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getDouble(5),
+                        rs.getDouble(6)
+                );
+            }
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return purchase;
+    }
+
+
     private int getRowCount(String table) {
         if (conn == null) {
             return 0;

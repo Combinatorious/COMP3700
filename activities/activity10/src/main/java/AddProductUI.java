@@ -26,7 +26,6 @@ public class AddProductUI extends JFrame {
         this.setTitle("Add Product");
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
-        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE); //TBI: disconnect on close
 
         dataAccess = Application.getInstance().getDataAdapter();
         dataAccess.connect(Application.getInstance().dbFileName);

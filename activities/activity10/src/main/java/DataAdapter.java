@@ -12,9 +12,9 @@ public interface DataAdapter {
 
     public CustomerModel loadCustomer(int customerID);
     public int saveCustomer(CustomerModel customer);
-// TBI:
-//    public PurchaseModel loadPurchase(int purchaseID);
-//    public int savePurchase(PurchaseModel purchase);
+
+    public PurchaseModel loadPurchase(int purchaseID);
+    public int savePurchase(PurchaseModel purchase);
 
     public String[][] loadAllProducts();
     public String[][] loadAllCustomers();
