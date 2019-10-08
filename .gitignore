@@ -10,8 +10,8 @@
 *.xd
 target/
 workspace.xml
-Store/
 ignore/
 *.mov
 *.mp4
 resources/
+*.class
