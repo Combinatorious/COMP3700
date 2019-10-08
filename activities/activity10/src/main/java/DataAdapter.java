@@ -18,4 +18,9 @@ public interface DataAdapter {
 
     public String[][] loadAllProducts();
     public String[][] loadAllCustomers();
+    public String[][] loadAllPurchases();
+
+    // Update methods used by table to allow some level of manipulation
+    public int updateValue(String ID, String updateVal, int col, String idType);
+    public int deleteRow(String ID, String idType);
 }

@@ -75,7 +75,7 @@ public class SQLiteWrapper implements DataAdapter {
 
     public int saveProduct(ProductModel product) {
 
-        if (conn != null) {
+        if (conn != null && product != null) {
             try {
                 Statement stmt = conn.createStatement();
                 if (loadProduct(product.barcode) == null) {           // this is a new product!
@@ -112,13 +112,7 @@ public class SQLiteWrapper implements DataAdapter {
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM Product WHERE Barcode = " + barcode);
-            if (rs.next()) {
-                product = new ProductModel(rs.getInt(1),
-                                            rs.getString(2),
-                                            rs.getDouble(3),
-                                            rs.getDouble(4),
-                                            rs.getString(5));
-            }
+            product = getProductFromResultSet(rs);
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -136,6 +130,10 @@ public class SQLiteWrapper implements DataAdapter {
 
     public String[][] loadAllCustomers() {
         return loadAllFromTable("Customer");
+    }
+
+    public String[][] loadAllPurchases() {
+        return loadAllFromTable("Purchase");
     }
 
     private String[][] loadAllFromTable(String table) {
@@ -163,7 +161,7 @@ public class SQLiteWrapper implements DataAdapter {
     }
 
     public int saveCustomer(CustomerModel customer) {
-        if (conn != null) {
+        if (conn != null && customer != null) {
             try {
                 Statement stmt = conn.createStatement();
                 if (loadCustomer(customer.customerID) == null) {
@@ -202,16 +200,7 @@ public class SQLiteWrapper implements DataAdapter {
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM Customer WHERE CustomerID = " + customerID);
-            if (rs.next()) {
-                customer = new CustomerModel(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getString(3),
-                        rs.getString(4),
-                        rs.getString(5),
-                        rs.getString(6)
-                );
-            }
+            customer = getCustomerFromResultSet(rs);
         }
         catch (Exception ex) {
             ex.printStackTrace();
@@ -220,10 +209,10 @@ public class SQLiteWrapper implements DataAdapter {
     }
 
     public int savePurchase(PurchaseModel purchase) {
-        if (conn != null) {
+        if (conn != null && purchase != null) {
             try {
                 Statement stmt = conn.createStatement();
-                if (loadPurchase(purchase.customerID) == null) {
+                if (loadPurchase(purchase.purchaseID) == null) {
                     stmt.execute("INSERT INTO Purchase(PurchaseID, Date, Barcode, CustomerID, Quantity, Price) VALUES ("
                             + purchase.purchaseID + ","
                             + '\'' + purchase.date + '\'' + ","
@@ -259,16 +248,7 @@ public class SQLiteWrapper implements DataAdapter {
         try {
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM Purchase WHERE PurchaseID = " + purchaseID);
-            if (rs.next()) {
-                purchase = new PurchaseModel(
-                        rs.getInt(1),
-                        rs.getString(2),
-                        rs.getInt(3),
-                        rs.getInt(4),
-                        rs.getDouble(5),
-                        rs.getDouble(6)
-                );
-            }
+            purchase = getPurchaseFromResultSet(rs);
         }
         catch (Exception ex) {
             ex.printStackTrace();
@@ -292,5 +272,141 @@ public class SQLiteWrapper implements DataAdapter {
         return 0;
     }
 
+    /*
+    Uses information from table model to update (delete and insert a new object) into one of the three tables
+    id: the primary key
+    updateVal: the string array of the entire row provided by table model
+    fistColHeader: used to identify which table to update the value in
+     */
+    @Override
+    public int updateValue(String id, String[] updateVal, String firstColHeader) {
+        if (conn == null) {
+            return DataAdapter.ERROR;
+        }
+
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = null;
+            String sql;
+            switch (firstColHeader) {
+                case "Barcode" :
+                    sql = "SELECT * FROM Product WHERE ";
+                    break;
+                case "CustomerID" :
+                    sql = "SELECT * FROM Customer WHERE ";
+                    break;
+                case "PurchaseID" :
+                    sql = "SELECT * FROM Purchase WHERE ";
+                    break;
+                default : return DataAdapter.ERROR;
+            }
+
+            deleteRow(id, firstColHeader);
+            rs.updateObject(col + 1, updateVal);
+            switch (firstColHeader) {
+                case "Barcode" :
+                    return saveProduct(getProductFromResultSet(rs));
+                case "CustomerID" :
+                    return saveCustomer(getCustomerFromResultSet(rs));
+                case "PurchaseID" :
+                    return savePurchase(getPurchaseFromResultSet(rs));
+                default : return DataAdapter.ERROR;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return DataAdapter.SUCCESS;
+        }
+    }
+
+
+    @Override
+    public int deleteRow(String id, String firstColHeader) {
+        if (conn == null) {
+            return DataAdapter.ERROR;
+        }
+        String sql;
+        switch (firstColHeader) {
+            case "Barcode" :
+                sql = "DELETE FROM Product WHERE ";
+                break;
+            case "CustomerID" :
+                sql = "DELETE FROM Customer WHERE ";
+                break;
+
+            case "PurchaseID" :
+                sql = "DELETE FROM Purchase WHERE ";
+                break;
+            default : return DataAdapter.ERROR;
+        }
+        try {
+            Statement stmt = conn.createStatement();
+            if (stmt.executeUpdate(sql + firstColHeader + " = " + id) > 0) {
+                return DataAdapter.SUCCESS;
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return DataAdapter.ERROR;
+        }
+        return DataAdapter.ERROR;
+    }
+
+    /* Some private sets to aid in updating database */
+    private PurchaseModel getPurchaseFromResultSet(ResultSet rs) {
+        try {
+            if (rs.next()) {
+                return new PurchaseModel(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getInt(3),
+                        rs.getInt(4),
+                        rs.getDouble(5),
+                        rs.getDouble(6)
+                );
+            }
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+    private ProductModel getProductFromResultSet(ResultSet rs) {
+        try {
+            if (rs.next()) {
+                return new ProductModel(rs.getInt(1),
+                        rs.getString(2),
+                        rs.getDouble(3),
+                        rs.getDouble(4),
+                        rs.getString(5));
+            }
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return null;
+
+
+    }
+    private CustomerModel getCustomerFromResultSet(ResultSet rs) {
+        try {
+            if (rs.next()) {
+                return new CustomerModel(
+                        rs.getInt(1),
+                        rs.getString(2),
+                        rs.getString(3),
+                        rs.getString(4),
+                        rs.getString(5),
+                        rs.getString(6)
+                );
+            }
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return null;
+
+    }
 }
 

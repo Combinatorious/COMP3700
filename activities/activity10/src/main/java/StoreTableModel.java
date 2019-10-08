@@ -2,6 +2,7 @@ import javax.swing.table.AbstractTableModel;
 
 
 public class StoreTableModel extends AbstractTableModel {
+
     private String[] columnNames;
     private String[][] data;
 
@@ -33,5 +34,15 @@ public class StoreTableModel extends AbstractTableModel {
 
     public boolean isCellEditable(int row, int col) {
         return true;
+    }
+
+    public void setValueAt(Object value, int row, int col) {
+        data[row][col] = (String) value;
+        fireTableCellUpdated(row, col);
+    }
+
+    /* Used to identify type of table */
+    public String getFirstColumnName() {
+        return columnNames[0];
     }
 }

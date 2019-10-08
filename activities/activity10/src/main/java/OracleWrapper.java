@@ -42,4 +42,17 @@ public class OracleWrapper implements DataAdapter {
         return null;
     }
 
+    public String[][] loadAllPurchases() {
+        return null;
+    }
+
+    @Override
+    public int deleteRow(String ID, String idType) {
+        return DataAdapter.ERROR;
+    }
+
+    @Override
+    public int updateValue(String ID, String updateVal, int col, String idType) {
+        return DataAdapter.ERROR;
+    }
 }

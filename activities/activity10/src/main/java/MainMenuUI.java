@@ -8,6 +8,7 @@ public class MainMenuUI extends JFrame {
     JButton customerButton = new JButton("Customers");
     JButton productButton = new JButton("Products");
     JButton purchaseButton = new JButton("Record Transaction");
+    JButton purchaseHistButton = new JButton("View Transaction History");
 
     public MainMenuUI() {
         this.setTitle("Main Menu");
@@ -27,6 +28,10 @@ public class MainMenuUI extends JFrame {
         button3.add(purchaseButton);
         this.getContentPane().add(button3);
 
+        JPanel button4 = new JPanel();
+        button4.add(purchaseHistButton);
+        this.getContentPane().add(button4);
+
         customerButton.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
                 new CustomerUI().run();;
@@ -44,6 +49,13 @@ public class MainMenuUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new AddPurchaseUI().run();
+            }
+        });
+
+        purchaseHistButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new TransactionHistoryUI().run();
             }
         });
     }

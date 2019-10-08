@@ -1,5 +1,5 @@
 public class PurchaseModel {
-    public static final String[] COL_NAMES = {"Purchase ID", "Barcode", "Customer ID", "Date", "Quantity", "Price"};
+    public static final String[] COL_NAMES = {"PurchaseID", "Date", "Barcode", "CustomerID", "Quantity", "Price"};
 
     // as of right now date and price are derived and set elsewhere, this should probably be handled within though
     public int purchaseID;
