@@ -52,7 +52,7 @@ public class OracleWrapper implements DataAdapter {
     }
 
     @Override
-    public int updateValue(String ID, String updateVal, int col, String idType) {
+    public int updateValue(String id, String[] newVals, String firstColHeader) {
         return DataAdapter.ERROR;
     }
 }

@@ -279,42 +279,20 @@ public class SQLiteWrapper implements DataAdapter {
     fistColHeader: used to identify which table to update the value in
      */
     @Override
-    public int updateValue(String id, String[] updateVal, String firstColHeader) {
-        if (conn == null) {
-            return DataAdapter.ERROR;
-        }
+    public int updateValue(String id, String[] newVals, String firstColHeader) {
 
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = null;
-            String sql;
-            switch (firstColHeader) {
-                case "Barcode" :
-                    sql = "SELECT * FROM Product WHERE ";
-                    break;
-                case "CustomerID" :
-                    sql = "SELECT * FROM Customer WHERE ";
-                    break;
-                case "PurchaseID" :
-                    sql = "SELECT * FROM Purchase WHERE ";
-                    break;
-                default : return DataAdapter.ERROR;
-            }
+        // First delete the old row at ID
+        deleteRow(id, firstColHeader);
 
-            deleteRow(id, firstColHeader);
-            rs.updateObject(col + 1, updateVal);
-            switch (firstColHeader) {
-                case "Barcode" :
-                    return saveProduct(getProductFromResultSet(rs));
-                case "CustomerID" :
-                    return saveCustomer(getCustomerFromResultSet(rs));
-                case "PurchaseID" :
-                    return savePurchase(getPurchaseFromResultSet(rs));
-                default : return DataAdapter.ERROR;
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return DataAdapter.SUCCESS;
+        // Now save a new customer out of the new values
+        switch (firstColHeader) {
+            case "Barcode" :
+                return saveProduct(getProductFromStringArray(newVals));
+            case "CustomerID" :
+                return saveCustomer(getCustomerFromStringArray(newVals));
+            case "PurchaseID" :
+                return savePurchase(getPurchaseFromStringArray(newVals));
+            default : return DataAdapter.ERROR;
         }
     }
 
@@ -406,7 +384,51 @@ public class SQLiteWrapper implements DataAdapter {
             return null;
         }
         return null;
-
+    }
+    /* Parses a product from a string array in the order:
+    Barcode, Name, Price, Quantity, Supplier
+     */
+    private ProductModel getProductFromStringArray(String[] values) {
+        if (values == null || values.length != 5) {
+            return null;
+        }
+        return new ProductModel(Integer.parseInt(values[0]),
+                values[1],
+                Double.parseDouble(values[2]),
+                Double.parseDouble(values[3]),
+                values[4]);
+    }
+    /*
+    CustomerID, Name, Email, Phone, Address, Payment Method
+     */
+    private CustomerModel getCustomerFromStringArray(String[] values) {
+        if (values == null || values.length != 6) {
+            return null;
+        }
+        return new CustomerModel(
+                Integer.parseInt(values[0]),
+                values[1],
+                values[2],
+                values[3],
+                values[4],
+                values[5]
+        );
+    }
+    /*
+    PurchaseID, Date (string), Barcode, CustomerID, Quantity, Price
+     */
+    private PurchaseModel getPurchaseFromStringArray(String[] values) {
+        if (values == null || values.length != 6) {
+            return null;
+        }
+        return new PurchaseModel(
+                Integer.parseInt(values[0]),
+                values[1],
+                Integer.parseInt(values[2]),
+                Integer.parseInt(values[3]),
+                Double.parseDouble(values[4]),
+                Double.parseDouble(values[5])
+        );
     }
 }
 

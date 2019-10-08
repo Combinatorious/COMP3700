@@ -13,11 +13,12 @@ class TableUpdateListener implements TableModelListener {
         /* added second condition to shield against fireTableDataChanged() events */
         if (e.getType() == TableModelEvent.UPDATE && e.getColumn() != TableModelEvent.ALL_COLUMNS) {
             int row = e.getFirstRow();
-            int col = e.getColumn();
             StoreTableModel model = (StoreTableModel) e.getSource();
+            // TODO: note this doesn't get old ID it gets new ID if ID is changed
             String id = model.getValueAt(row, 0);
-            String update = model.getValueAt(row, col);
-            dataAccess.updateValue(id, update, col, model.getFirstColumnName());
+            dataAccess.updateValue(model.getValueAt(row, 0),
+                                        model.getRowAt(row),
+                                        model.getFirstColumnName());
         }
         /* this case is when a table row is deleted, it only removes one row for now */
         else if (e.getType() == TableModelEvent.DELETE) {

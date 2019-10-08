@@ -32,8 +32,9 @@ public class StoreTableModel extends AbstractTableModel {
         return data[row][col];
     }
 
+    /* Quick fix for erroneous update behavior on id column is to make it uneditable */
     public boolean isCellEditable(int row, int col) {
-        return true;
+        return col != 0;
     }
 
     public void setValueAt(Object value, int row, int col) {
@@ -44,5 +45,9 @@ public class StoreTableModel extends AbstractTableModel {
     /* Used to identify type of table */
     public String getFirstColumnName() {
         return columnNames[0];
+    }
+
+    public String[] getRowAt(int row) {
+        return data[row];
     }
 }
