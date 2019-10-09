@@ -29,6 +29,8 @@ public class ProductUI extends JFrame {
 
         tableModel = new StoreTableModel(dataAccess.loadAllProducts(), ProductModel.COL_NAMES);
 
+        tableModel.addTableModelListener(new TableUpdateListener(dataAccess));
+
         JTable table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
         table.setFillsViewportHeight(true);

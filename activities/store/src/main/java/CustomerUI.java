@@ -28,6 +28,8 @@ public class CustomerUI extends JFrame {
 
         tableModel = new StoreTableModel(dataAccess.loadAllCustomers(), CustomerModel.COL_NAMES);
 
+        tableModel.addTableModelListener(new TableUpdateListener(dataAccess));
+
         JTable table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
         table.setFillsViewportHeight(true);
