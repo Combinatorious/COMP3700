@@ -68,9 +68,8 @@ public class AddPurchaseUI extends JFrame {
                     Integer.parseInt(customerIDField.getText()),
                     Double.parseDouble(quantityField.getText())
             );
-            new PurchaseConfirmUI(newPurchase).run();
+            new PurchaseDisplayUI(newPurchase, PurchaseDisplayUI.CONFIRM_TYPE).run();
             AddPurchaseUI.this.dispatchEvent(new WindowEvent(AddPurchaseUI.this, WindowEvent.WINDOW_CLOSING));
-
         }
     }
 }

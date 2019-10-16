@@ -8,18 +8,29 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.text.DecimalFormat;
 
-public class PurchaseConfirmUI extends JFrame {
+public class PurchaseDisplayUI extends JFrame {
 
     public static final int FRAME_HEIGHT = 1200, FRAME_WIDTH = 800;
+    public static final int CONFIRM_TYPE = 0;
+    public static final int DELETE_TYPE = 1;
 
     DataAdapter dataAccess;
 
     PurchaseModel purchase;
 
-    JButton confirm = new JButton("Confirm transaction");
+    JButton button;
 
-    public PurchaseConfirmUI(PurchaseModel input) {
-        this.setTitle("Is this correct?");
+    TransactionHistoryUI parent;
+
+    public PurchaseDisplayUI(PurchaseModel input, int type) {
+        if (type == CONFIRM_TYPE) {
+            this.setTitle("Is this correct?");
+            button = new JButton("Confirm transaction");
+        }
+        else { // type == DELETE_TYPE
+            this.setTitle("Receipt");
+            button = new JButton("Delete transaction");
+        }
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
 
@@ -59,16 +70,21 @@ public class PurchaseConfirmUI extends JFrame {
         this.getContentPane().add(label6);
 
         JPanel button1 = new JPanel();
-        button1.add(confirm);
+        button1.add(button);
         this.getContentPane().add(button1);
 
-        confirm.addActionListener(new ConfirmActionListener());
+        if (type == CONFIRM_TYPE) {
+            button.addActionListener(new ConfirmActionListener());
+        }
+        else {
+            button.addActionListener(new DeleteActionListener());
+        }
 
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
                 dataAccess.disconnect();
-                PurchaseConfirmUI.this.dispose();
+                PurchaseDisplayUI.this.dispose();
             }
         });
     }
@@ -76,9 +92,21 @@ public class PurchaseConfirmUI extends JFrame {
     class ConfirmActionListener implements ActionListener {
         @Override
         public void actionPerformed(ActionEvent e) {
-            JOptionPane.showMessageDialog(PurchaseConfirmUI.this, "I'll make sure to save that for you.");
-            dataAccess.savePurchase(PurchaseConfirmUI.this.purchase);
-            PurchaseConfirmUI.this.dispatchEvent(new WindowEvent(PurchaseConfirmUI.this, WindowEvent.WINDOW_CLOSING));
+            JOptionPane.showMessageDialog(PurchaseDisplayUI.this, "I'll make sure to save that for you.");
+            dataAccess.savePurchase(PurchaseDisplayUI.this.purchase);
+            PurchaseDisplayUI.this.dispatchEvent(new WindowEvent(PurchaseDisplayUI.this, WindowEvent.WINDOW_CLOSING));
+        }
+    }
+
+    class DeleteActionListener implements ActionListener {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JOptionPane.showMessageDialog(PurchaseDisplayUI.this, "I'll make sure to delete that for you.");
+            dataAccess.deleteRow(Integer.toString(PurchaseDisplayUI.this.purchase.purchaseID), "PurchaseID");
+            if (parent != null) {
+                parent.updateTable();
+            }
+            PurchaseDisplayUI.this.dispatchEvent(new WindowEvent(PurchaseDisplayUI.this, WindowEvent.WINDOW_CLOSING));
         }
     }
 

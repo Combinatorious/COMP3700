@@ -5,6 +5,8 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class TransactionHistoryUI extends JFrame {
 
@@ -13,6 +15,8 @@ public class TransactionHistoryUI extends JFrame {
     DataAdapter dataAccess;
 
     StoreTableModel tableModel;
+
+    JTable table; // ReceiptTriggerListener needs access to this
 
     public TransactionHistoryUI() {
         this.setTitle("Transaction History");
@@ -24,7 +28,7 @@ public class TransactionHistoryUI extends JFrame {
 
         tableModel = new StoreTableModel(dataAccess.loadAllPurchases(), PurchaseModel.COL_NAMES);
 
-        JTable table = new JTable(tableModel);
+        table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
         table.setFillsViewportHeight(true);
 
@@ -42,8 +46,36 @@ public class TransactionHistoryUI extends JFrame {
             }
         });
 
+        table.addMouseListener(new ReceiptTriggerListener());
 
+    }
 
+    class ReceiptTriggerListener extends MouseAdapter {
+        public void mousePressed(MouseEvent e) {
+            if (table == null)
+                return;
+            int r = table.rowAtPoint(e.getPoint());
+            if (r >= 0 && r < table.getRowCount()) {
+                table.setRowSelectionInterval(r, r);
+            } else {
+                table.clearSelection();
+            }
+            int rowIndex = table.getSelectedRow();
+            if (rowIndex < 0)
+                return;
+            if (e.isPopupTrigger() && e.getComponent() instanceof JTable ) {
+                PurchaseModel purchase = PurchaseModel.getPurchaseFromStringArray(tableModel.getRowAt(rowIndex));
+                PurchaseDisplayUI receipt = new PurchaseDisplayUI(purchase, PurchaseDisplayUI.DELETE_TYPE);
+                receipt.parent = TransactionHistoryUI.this;
+                receipt.run();
+            }
+        }
+        public void mouseReleased(MouseEvent e) {
+        // do nothing
+        }
+        public void mouseClicked(MouseEvent e) {
+        // nop
+        }
     }
 
     public void run() {

@@ -24,4 +24,21 @@ public class PurchaseModel {
         this.quantity = quantity;
         this.price = price;
     }
+
+    /*
+    PurchaseID, Date (string), Barcode, CustomerID, Quantity, Price
+     */
+    public static PurchaseModel getPurchaseFromStringArray(String[] values) {
+        if (values == null || values.length != 6) {
+            return null;
+        }
+        return new PurchaseModel(
+                Integer.parseInt(values[0]),
+                values[1],
+                Integer.parseInt(values[2]),
+                Integer.parseInt(values[3]),
+                Double.parseDouble(values[4]),
+                Double.parseDouble(values[5])
+        );
+    }
 }

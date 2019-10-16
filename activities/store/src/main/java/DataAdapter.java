@@ -22,5 +22,5 @@ public interface DataAdapter {
 
     // Update methods used by table to allow some level of manipulation
     public int updateValue(String id, String[] newVals, String firstColHeader);
-    public int deleteRow(String ID, String idType);
+    public int deleteRow(String id, String firstColHeader);
 }

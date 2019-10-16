@@ -291,7 +291,7 @@ public class SQLiteWrapper implements DataAdapter {
             case "CustomerID" :
                 return saveCustomer(getCustomerFromStringArray(newVals));
             case "PurchaseID" :
-                return savePurchase(getPurchaseFromStringArray(newVals));
+                return savePurchase(PurchaseModel.getPurchaseFromStringArray(newVals));
             default : return DataAdapter.ERROR;
         }
     }
@@ -414,21 +414,6 @@ public class SQLiteWrapper implements DataAdapter {
                 values[5]
         );
     }
-    /*
-    PurchaseID, Date (string), Barcode, CustomerID, Quantity, Price
-     */
-    private PurchaseModel getPurchaseFromStringArray(String[] values) {
-        if (values == null || values.length != 6) {
-            return null;
-        }
-        return new PurchaseModel(
-                Integer.parseInt(values[0]),
-                values[1],
-                Integer.parseInt(values[2]),
-                Integer.parseInt(values[3]),
-                Double.parseDouble(values[4]),
-                Double.parseDouble(values[5])
-        );
-    }
+
 }
 
