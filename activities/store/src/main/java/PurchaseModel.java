@@ -31,8 +31,17 @@ public class PurchaseModel {
         this.barcode = barcode;
         this.customerID = customerID;
         this.quantity = quantity;
-
         ProductModel product = dataAccess.loadProduct(barcode);
+        if (product == null) {
+            return; // TODO: throw exception or something
+        }
+        if (quantity > product.quantity) {
+            return; // TODO: also exception
+        }
+
+        product.quantity -= quantity; // TODO: move this elsewhere
+        dataAccess.saveProduct(product); // that should update the quantity
+        // TODO: update product quantity upon database update of purchase database
 
         this.date = getDateAsString();
         this.price = product.price * quantity;
