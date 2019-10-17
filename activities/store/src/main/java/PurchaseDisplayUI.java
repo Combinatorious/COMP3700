@@ -37,19 +37,16 @@ public class PurchaseDisplayUI extends JFrame {
         dataAccess = Application.getInstance().getDataAdapter();
         dataAccess.connect(Application.getInstance().dbFileName);
 
-        String currentDate = getDateAsString();
         CustomerModel customer = dataAccess.loadCustomer(input.customerID);
         ProductModel product = dataAccess.loadProduct(input.barcode);
         purchase = input;
-        purchase.date = currentDate;
-        purchase.price = product.price * purchase.quantity;
 
         JPanel label1 = new JPanel();
         label1.add(new JLabel("Purchase ID: " + purchase.purchaseID));
         this.getContentPane().add(label1);
 
         JPanel label2 = new JPanel();
-        label2.add(new JLabel("Date: " + currentDate));
+        label2.add(new JLabel("Date: " + purchase.date));
         this.getContentPane().add(label2);
 
         JPanel label3 = new JPanel();
@@ -108,11 +105,6 @@ public class PurchaseDisplayUI extends JFrame {
             }
             PurchaseDisplayUI.this.dispatchEvent(new WindowEvent(PurchaseDisplayUI.this, WindowEvent.WINDOW_CLOSING));
         }
-    }
-
-    private String getDateAsString() {
-        DateFormat df = new SimpleDateFormat("MM/dd/yyyy");
-        return df.format(new Date());
     }
 
     public void run() {

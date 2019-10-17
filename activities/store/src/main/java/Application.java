@@ -55,10 +55,11 @@ public class Application {
 
     public static void main(String[] args) {
 
+        getInstance();
         MainMenuUI mainMenu = new MainMenuUI();
         mainMenu.run();
 
-        getInstance();
+
 
     }
 
