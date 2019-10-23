@@ -37,6 +37,7 @@ public class Application {
         else if (db.equals("SQLite")) {
             adapter = new SQLiteWrapper();
         }
+	// TODO: move connection functionality here
 //        try {
 //            adapter.connect(fileName);
 //        }
