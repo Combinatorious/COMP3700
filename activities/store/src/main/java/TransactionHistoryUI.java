@@ -24,7 +24,6 @@ public class TransactionHistoryUI extends JFrame {
         this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
 
         dataAccess = Application.getInstance().getDataAdapter();
-        dataAccess.connect(Application.getInstance().dbFileName);
 
         tableModel = new StoreTableModel(dataAccess.loadAllPurchases(), PurchaseModel.COL_NAMES);
 
@@ -41,7 +40,6 @@ public class TransactionHistoryUI extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                dataAccess.disconnect();
                 TransactionHistoryUI.this.dispose();
             }
         });

@@ -62,15 +62,19 @@ public class SQLiteWrapper implements DataAdapter {
     }
 
     public int disconnect() {
-        try {
-            conn.close();
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (Exception e) {
+                //System.out.println("Error disconnecting from database.");
+                return DataAdapter.ERROR;
+            }
+            conn = null;
+            return DataAdapter.SUCCESS;
         }
-        catch (Exception e) {
-            //System.out.println("Error disconnecting from database.");
-            return DataAdapter.ERROR;
+        else {
+            return DataAdapter.ALREADY_CONNECTED; // I guess in this context it means already disconnected
         }
-        conn = null;
-        return DataAdapter.SUCCESS;
     }
 
     public int saveProduct(ProductModel product) {

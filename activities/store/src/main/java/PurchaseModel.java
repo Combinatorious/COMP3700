@@ -17,7 +17,6 @@ public class PurchaseModel {
     // Initialize a purchase model and derive date and price
     public PurchaseModel(int purchaseID, int barcode, int customerID, double quantity) {
         dataAccess = Application.getInstance().getDataAdapter();
-        dataAccess.connect(Application.getInstance().dbFileName);
         // TODO: fix this connect strategy
         // Using a singleton data adapter should allow you to connect once and disconnect on app exit
         // which is a lot easier to manage than having each window connect and disconnect which could
@@ -26,6 +25,8 @@ public class PurchaseModel {
 
         // for now though can disconnect data access without causing issues since this is only created
         // within AddPurchaseUI which is does not use database access
+
+        // UPDATE: connection strategy changed
 
         this.purchaseID = purchaseID;
         this.barcode = barcode;
@@ -46,7 +47,6 @@ public class PurchaseModel {
         this.date = getDateAsString();
         this.price = product.price * quantity;
 
-        dataAccess.disconnect();
     }
 
     public PurchaseModel(int purchaseID, String date, int barcode, int customerID, double quantity, double price) {

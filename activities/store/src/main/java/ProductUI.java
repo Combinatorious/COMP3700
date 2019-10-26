@@ -21,7 +21,6 @@ public class ProductUI extends JFrame {
         this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
 
         dataAccess = Application.getInstance().getDataAdapter();
-        dataAccess.connect(Application.getInstance().dbFileName);
 
         JPanel addButton = new JPanel();
         addButton.add(addProductButton);
@@ -50,7 +49,6 @@ public class ProductUI extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                dataAccess.disconnect();
                 ProductUI.this.dispose();
             }
         });

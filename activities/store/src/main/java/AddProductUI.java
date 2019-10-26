@@ -28,7 +28,6 @@ public class AddProductUI extends JFrame {
         this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
 
         dataAccess = Application.getInstance().getDataAdapter();
-        dataAccess.connect(Application.getInstance().dbFileName);
 
         JPanel field1 = new JPanel();
         field1.add(new JLabel("Name:"));

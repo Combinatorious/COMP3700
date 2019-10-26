@@ -35,7 +35,6 @@ public class PurchaseDisplayUI extends JFrame {
         this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
 
         dataAccess = Application.getInstance().getDataAdapter();
-        dataAccess.connect(Application.getInstance().dbFileName);
 
         CustomerModel customer = dataAccess.loadCustomer(input.customerID);
         ProductModel product = dataAccess.loadProduct(input.barcode);
@@ -80,7 +79,6 @@ public class PurchaseDisplayUI extends JFrame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                dataAccess.disconnect();
                 PurchaseDisplayUI.this.dispose();
             }
         });

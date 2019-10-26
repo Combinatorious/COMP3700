@@ -8,7 +8,7 @@ public class AddCustomerUI extends JFrame {
 
     public static final int FRAME_HEIGHT = 1200, FRAME_WIDTH = 800, FIELD_WIDTH = 30;
 
-    DataAdapter dataAccess; //need this out here to disconnect on close
+    DataAdapter dataAccess;
     CustomerUI parent;
 
     JTextField nameField = new JTextField(FIELD_WIDTH);
@@ -26,7 +26,6 @@ public class AddCustomerUI extends JFrame {
         this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
 
         dataAccess = Application.getInstance().getDataAdapter();
-        dataAccess.connect(Application.getInstance().dbFileName);
 
         JPanel field1 = new JPanel();
         field1.add(new JLabel("Name:"));

@@ -7,11 +7,17 @@ import java.awt.event.ActionListener;
  (Same function as StoreManager.java from class)
  */
 public class Application {
+
     public static final String DEFAULT_DB = "Activity11.db";
     public static final String RELATIVE_PATH = "src/main/resources/databases/";
+
     DataAdapter adapter = null;
     String dbFileName;
+
+    ProductServer pServer;
+
     private static Application instance = null;
+
 
     public static Application getInstance() {
         if (instance == null) {
@@ -37,13 +43,22 @@ public class Application {
         else if (db.equals("SQLite")) {
             adapter = new SQLiteWrapper();
         }
-	// TODO: move connection functionality here
-//        try {
-//            adapter.connect(fileName);
-//        }
-//        catch (Exception ex) {
-//            ex.printStackTrace();
-//        }
+	// connect here once and for all
+        try {
+            adapter.connect(fileName);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        pServer = new ProductServer();
+        pServer.start();
+
+
+    }
+
+    public void applicationWillTerminate() {
+        adapter.disconnect();
     }
 
     public DataAdapter getDataAdapter() {

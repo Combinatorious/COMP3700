@@ -1,6 +1,8 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class MainMenuUI extends JFrame {
     public static final int FRAME_HEIGHT = 1200, FRAME_WIDTH = 1000;
@@ -31,6 +33,13 @@ public class MainMenuUI extends JFrame {
         JPanel button4 = new JPanel();
         button4.add(purchaseHistButton);
         this.getContentPane().add(button4);
+
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                Application.getInstance().applicationWillTerminate();
+            }
+        });
 
         customerButton.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
