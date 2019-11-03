@@ -19,6 +19,7 @@ public class EditClientUI {
     // customer fields
     public JTextField txtCustID, txtCustName, txtEmail, txtPhone, txtAddress, txtPayInfo;
 
+
     Socket link;
     Scanner input;
     PrintWriter output;

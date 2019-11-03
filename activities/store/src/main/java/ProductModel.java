@@ -21,4 +21,8 @@ public class ProductModel {
         this.quantity = quantity;
         this.supplier = supplier;
     }
+
+    public ProductModel() {
+        // default initialize
+    }
 }

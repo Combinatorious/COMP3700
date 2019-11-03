@@ -101,24 +101,18 @@ public class MainClientUI {
                     }
 
                 }
-
-                output.println(ProductServer.LOAD);
-                output.println(barcode);
-
-                String name = input.nextLine();
-                if (name.equals(ProductServer.FAIL)) {
-                    JOptionPane.showMessageDialog(null, "Can't find product for barcode " + barcode);
+                else { // empty id field, create a new object
+                    if (e.getSource() == btnProd) {
+                        new EditClientUI(new ProductModel()).run();
+                    }
+                    else {
+                        new EditClientUI(new CustomerModel()).run();
+                    }
                 }
 
-                double price = Double.parseDouble(input.nextLine());
-                double quantity = Double.parseDouble(input.nextLine());
-                String supplier = input.nextLine();
-
-                ProductModel res = new ProductModel(barcode, name, price, quantity, supplier);
-                new EditProductClientUI(res).run();
             }
             catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(null, "Error reading barcode");
+                JOptionPane.showMessageDialog(null, "Error reading id");
                 return;
             }
             catch (Exception ex) {

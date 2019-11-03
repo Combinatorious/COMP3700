@@ -20,4 +20,8 @@ public class CustomerModel {
         this.address = address;
         this.paymentInfo = paymentInfo;
     }
+
+    public CustomerModel() {
+
+    }
 }
