@@ -14,7 +14,7 @@ public class Application {
     DataAdapter adapter = null;
     String dbFileName;
 
-    ProductServer pServer;
+    StoreServer server;
 
     private static Application instance = null;
 
@@ -51,8 +51,8 @@ public class Application {
             ex.printStackTrace();
         }
 
-        pServer = new ProductServer();
-        pServer.start();
+        server = new StoreServer();
+        server.start();
 
 
     }
