@@ -286,7 +286,7 @@ public class SQLiteWrapper implements DataAdapter {
                             + "Password = " + '\'' + user.username + '\'' + ", "
                             + "UserType = " + user.userType + ","
                             + "CustomerID = " + user.customerID +
-                            " WHERE Username = " + user.username
+                            " WHERE Username = " + '\'' + user.username + '\''
                     );
                 }
             }
@@ -303,7 +303,7 @@ public class SQLiteWrapper implements DataAdapter {
         UserModel res = null;
         try {
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM User WHERE Username = " + user.username);
+            ResultSet rs = stmt.executeQuery("SELECT * FROM User WHERE Username = " + '\'' + user.username + '\'');
             res = getUserFromResultSet(rs);
         }
         catch (Exception ex) {
@@ -320,7 +320,7 @@ public class SQLiteWrapper implements DataAdapter {
                     return DataAdapter.ERROR;
                 }
                 else {
-                    stmt.executeUpdate("DELETE FROM User WHERE Username = " + user.username);
+                    stmt.executeUpdate("DELETE FROM User WHERE Username = " + '\'' + user.username + '\'');
                 }
             }
             catch(Exception ex) {
