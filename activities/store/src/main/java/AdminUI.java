@@ -48,7 +48,7 @@ public class AdminUI extends JFrame {
         btnAddUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // new AddUserUI().run();
+                new AddUserUI().run();
             }
         });
 

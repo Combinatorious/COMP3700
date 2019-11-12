@@ -162,8 +162,21 @@ public class StoreServer extends Thread {
 
                 }
                 else if (msg.code == MessageModel.PUT_USER) {
+                    UserModel user = gson.fromJson(msg.data, UserModel.class);
 
+                    System.out.println("Put user " + user.username);
+
+                    dataAccess = Application.getInstance().getDataAdapter();
+
+                    if (dataAccess.saveUser(user) == DataAdapter.SUCCESS) {
+                        msg.code = MessageModel.SUCCESS;
+                    }
+                    else {
+                        msg.code = MessageModel.ERROR;
+                    }
+                    out.println(gson.toJson(msg));
                 }
+                
                 else if (msg.code == MessageModel.REMOVE_USER) {
 
                 }
