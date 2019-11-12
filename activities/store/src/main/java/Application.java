@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.UnknownServiceException;
 
 /*
  Main application of store management system.
@@ -54,6 +55,16 @@ public class Application {
         server = new StoreServer();
         server.start();
 
+        // set up a default admin for initial access
+        UserModel admin = new UserModel();
+        admin.username = "admin";
+        admin.password = "admin";
+        admin.userType = UserModel.ADMIN;
+        adapter.saveUser(admin);
+//        if (adapter.loadUser(admin) == null) {
+//            adapter.saveUser(admin);
+//        }
+
 
     }
 
@@ -72,10 +83,9 @@ public class Application {
     public static void main(String[] args) {
 
         getInstance();
-        MainMenuUI mainMenu = new MainMenuUI();
-        mainMenu.run();
-
-
+//        MainMenuUI mainMenu = new MainMenuUI();
+//        mainMenu.run();
+        new LoginUI().run();
 
     }
 

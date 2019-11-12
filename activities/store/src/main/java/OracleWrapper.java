@@ -34,6 +34,18 @@ public class OracleWrapper implements DataAdapter {
         return DataAdapter.ERROR;
     }
 
+    public int removeUser(UserModel user) {
+        return DataAdapter.ERROR;
+    }
+
+    public int saveUser(UserModel user) {
+        return DataAdapter.ERROR;
+    }
+
+    public UserModel loadUser(UserModel user) {
+        return null;
+    }
+
     public String[][] loadAllProducts() {
         return null;
     }

@@ -16,6 +16,10 @@ public interface DataAdapter {
     public PurchaseModel loadPurchase(int purchaseID);
     public int savePurchase(PurchaseModel purchase);
 
+    public UserModel loadUser(UserModel user);
+    public int saveUser(UserModel user);
+    public int removeUser(UserModel user);
+
     public String[][] loadAllProducts();
     public String[][] loadAllCustomers();
     public String[][] loadAllPurchases();

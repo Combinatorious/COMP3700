@@ -16,11 +16,19 @@ public class MessageModel {
     public static final int GET_PURCHASE = 300;
     public static final int PUT_PURCHASE = 301;
 
+    public static final int PUT_USER = 400;
+    public static final int REMOVE_USER = 401;
+
+    public static final int LOGIN  = 10;
+    public static final int LOGOUT = 11;
+
     public static final int ERROR = 0;
     public static final int SUCCESS = 1;
 
     // operation code
     public int code;
+    // return code
+    public int ssid;
     // serialized data
     public String data;
 }

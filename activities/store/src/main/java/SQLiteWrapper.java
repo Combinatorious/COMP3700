@@ -50,6 +50,14 @@ public class SQLiteWrapper implements DataAdapter {
                             + "    FOREIGN KEY(CustomerID) REFERENCES Customer(CustomerID)\n);";
                     stmt.execute(create);
 
+                    create = "CREATE TABLE IF NOT EXISTS User (\n"
+                            + "    Username text,\n"
+                            + "    Password text,\n"
+                            + "    UserType integer,\n"
+                            + "    CustomerID integer\n);";
+                           // + "    FOREIGN KEY(CustomerID) REFERENCES Customer(CustomerID)\n);";
+                    stmt.execute(create);
+
                 }
 
             } catch (Exception e) {
@@ -260,6 +268,70 @@ public class SQLiteWrapper implements DataAdapter {
         return purchase;
     }
 
+    public int saveUser(UserModel user) {
+        if (conn != null && user != null) {
+            try {
+                Statement stmt = conn.createStatement();
+                if (loadUser(user) == null) {
+                    stmt.execute("INSERT INTO User(Username, Password, UserType, CustomerID) VALUES ("
+                            + '\'' + user.username + '\'' + ","
+                            + '\'' + user.password + '\'' + ","
+                            + user.userType + ","
+                            + user.customerID + ")"
+                    );
+                }
+                else {
+                    stmt.executeUpdate("UPDATE User SET "
+                            + "Username = " + '\'' + user.username + '\'' + ", "
+                            + "Password = " + '\'' + user.username + '\'' + ", "
+                            + "UserType = " + user.userType + ","
+                            + "CustomerID = " + user.customerID +
+                            " WHERE Username = " + user.username
+                    );
+                }
+            }
+            catch(Exception ex) {
+                ex.printStackTrace();
+                return DataAdapter.ERROR;
+            }
+            return DataAdapter.SUCCESS;
+        }
+        return DataAdapter.ERROR;
+    }
+
+    public UserModel loadUser(UserModel user) {
+        UserModel res = null;
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM User WHERE Username = " + user.username);
+            res = getUserFromResultSet(rs);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return res;
+    }
+
+    public int removeUser(UserModel user) {
+        if (conn != null && user != null) {
+            try {
+                Statement stmt = conn.createStatement();
+                if (loadUser(user) == null) {
+                    return DataAdapter.ERROR;
+                }
+                else {
+                    stmt.executeUpdate("DELETE FROM User WHERE Username = " + user.username);
+                }
+            }
+            catch(Exception ex) {
+                ex.printStackTrace();
+                return DataAdapter.ERROR;
+            }
+            return DataAdapter.SUCCESS;
+        }
+        return DataAdapter.ERROR;
+    }
+
 
     private int getRowCount(String table) {
         if (conn == null) {
@@ -381,6 +453,23 @@ public class SQLiteWrapper implements DataAdapter {
                         rs.getString(5),
                         rs.getString(6)
                 );
+            }
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+    private UserModel getUserFromResultSet(ResultSet rs) {
+        try {
+            if (rs.next()) {
+                UserModel user = new UserModel();
+                user.username = rs.getString("Username");
+                user.password = rs.getString("Password");
+                user.userType = rs.getInt("UserType");
+                user.customerID = rs.getInt("CustomerID");
+                return user;
             }
         }
         catch (Exception ex) {

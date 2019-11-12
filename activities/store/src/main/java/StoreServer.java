@@ -2,6 +2,7 @@ import java.io.PrintWriter;
 import java.net.*;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.HashMap;
 
 import com.google.gson.Gson;
 
@@ -10,9 +11,12 @@ public class StoreServer extends Thread {
 
     DataAdapter dataAccess;
 
-    public static final int port = 1000;
+    public static final int PORT = 1000;
 
     private AtomicBoolean running = new AtomicBoolean(false);
+
+    public int totalActiveUsers = 0;
+    public HashMap<Integer, UserModel> activeUsers = new HashMap<Integer, UserModel>();
 
     @Override
     public void interrupt() {
@@ -23,7 +27,7 @@ public class StoreServer extends Thread {
     public void run() {
 
         try {
-            ServerSocket server = new ServerSocket(port);
+            ServerSocket server = new ServerSocket(PORT);
             Gson gson = new Gson();
 
             running.set(true);
@@ -111,6 +115,56 @@ public class StoreServer extends Thread {
                         msg.code = MessageModel.ERROR;
                     }
                     out.println(gson.toJson(msg));
+
+                }
+                else if (msg.code == MessageModel.LOGIN) {
+
+                    UserModel user = gson.fromJson(msg.data, UserModel.class);
+
+                    System.out.println("Login from " + user.username);
+
+                    dataAccess = Application.getInstance().getDataAdapter();
+
+                    UserModel res = dataAccess.loadUser(user);
+
+                    if (res != null && user.password.equals(res.password)) {
+                        msg.code = MessageModel.SUCCESS;
+                        msg.ssid = ++totalActiveUsers;
+                        res.ssid = msg.ssid;
+                        msg.data = gson.toJson(res);
+                        activeUsers.put(msg.ssid, res);
+                    }
+                    else {
+                        msg.code = MessageModel.ERROR;
+                    }
+
+                    out.println(gson.toJson(msg));
+                }
+                else if (msg.code == MessageModel.LOGOUT) {
+
+                    UserModel user = gson.fromJson(msg.data, UserModel.class);
+
+                    System.out.println("Logout from " + user.username);
+
+                    dataAccess = Application.getInstance().getDataAdapter();
+
+                    if (activeUsers.remove(user.ssid, user)) {
+                        // success
+                        totalActiveUsers--;
+                        msg.code = MessageModel.SUCCESS;
+                    }
+                    else {
+                        // error logging out
+                        msg.code = MessageModel.ERROR;
+                    }
+
+                    out.println(gson.toJson(msg));
+
+                }
+                else if (msg.code == MessageModel.PUT_USER) {
+
+                }
+                else if (msg.code == MessageModel.REMOVE_USER) {
 
                 }
 
