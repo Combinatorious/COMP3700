@@ -1,59 +1,46 @@
 import java.io.PrintWriter;
+import java.lang.reflect.Method;
 import java.net.*;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.Callable;
+import java.util.Map;
 import java.util.HashMap;
 
 import com.google.gson.Gson;
 
 
-public class StoreServer extends Thread {
+public class StoreServer {
 
     DataAdapter dataAccess;
 
     public static final int PORT = 1000;
     public static final String HOST = "localhost";
 
-    private AtomicBoolean running = new AtomicBoolean(false);
-
     public int totalActiveUsers = 0;
 
-    public HashMap<Integer, UserModel> activeUsers = new HashMap<Integer, UserModel>();
+    public Map<Integer, UserModel> activeUsers = new HashMap<Integer, UserModel>();
 
-    public HashMap<Integer, Callable > runTable = new HashMap<Integer, Callable>();
-
-    @Override
-    public void interrupt() {
-        running.set(false);
-        super.interrupt();
-    } // interrupting TBI
+    private static final Map<Integer, Runnable> runTable = new HashMap<Integer, Runnable>() {{
+        put(MessageModel.GET_PRODUCT, () -> getProduct());
+        put(MessageModel.PUT_PRODUCT, () -> putProduct());
+        put(MessageModel.GET_CUSTOMER, () -> getCustomer());
+        put(MessageModel.PUT_CUSTOMER, () -> putCustomer());
+        put(MessageModel.GET_PURCHASE, () -> getPurchase());
+        put(MessageModel.PUT_PURCHASE, () -> putPurchase());
+        put(MessageModel.GET_USER, () -> getUser());
+        put(MessageModel.PUT_USER, () -> putUser());
+        put(MessageModel.REMOVE_USER, () -> removeUser());
+        put(MessageModel.LOGIN, () -> login());
+        put(MessageModel.LOGOUT, () -> logout());
+        put(MessageModel.GET_ALL_PRODUCTS, () -> getAllProducts());
+        put(MessageModel.GET_ALL_CUSTOMERS, () -> getAllCustomers());
+        put(MessageModel.GET_ALL_PURCHASES, () -> getAllPurchases());
+        put(MessageModel.UPDATE_VALUE, () -> updateValue());
+        put(MessageModel.DELETE_ROW, () -> deleteRow());
+    }};
 
     public void run() {
-        
-
-        public static final int GET_PRODUCT = 100;
-        public static final int PUT_PRODUCT = 101;
-
-        public static final int GET_CUSTOMER = 200;
-        public static final int PUT_CUSTOMER = 201;
-
-        public static final int GET_PURCHASE = 300;
-        public static final int PUT_PURCHASE = 301;
-
-        public static final int GET_USER = 400;
-        public static final int PUT_USER = 401;
-        public static final int REMOVE_USER = 402;
-
-        public static final int LOGIN  = 10;
-        public static final int LOGOUT = 11;
-
-        public static final int GET_ALL_PRODUCTS = 500;
-        public static final int GET_ALL_CUSTOMERS = 501;
-        public static final int GET_ALL_PURCHASES = 502;
-
-        public static final int UPDATE_VALUE = 1000;
-        public static final int DELETE_ROW = 1001;
 
         try {
             ServerSocket server = new ServerSocket(PORT);
