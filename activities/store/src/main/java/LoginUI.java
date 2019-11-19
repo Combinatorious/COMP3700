@@ -71,6 +71,7 @@ public class LoginUI {
                 return;
             }
 
+            // TODO: move all of this stuff into a DataAdapter client/server communicator
             Gson gson = new Gson();
 
             MessageModel msg = new MessageModel();

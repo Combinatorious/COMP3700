@@ -16,11 +16,19 @@ public class MessageModel {
     public static final int GET_PURCHASE = 300;
     public static final int PUT_PURCHASE = 301;
 
-    public static final int PUT_USER = 400;
-    public static final int REMOVE_USER = 401;
+    public static final int GET_USER = 400;
+    public static final int PUT_USER = 401;
+    public static final int REMOVE_USER = 402;
 
     public static final int LOGIN  = 10;
     public static final int LOGOUT = 11;
+
+    public static final int GET_ALL_PRODUCTS = 500;
+    public static final int GET_ALL_CUSTOMERS = 501;
+    public static final int GET_ALL_PURCHASES = 502;
+
+    public static final int UPDATE_VALUE = 1000;
+    public static final int DELETE_ROW = 1001;
 
     public static final int ERROR = 0;
     public static final int SUCCESS = 1;
