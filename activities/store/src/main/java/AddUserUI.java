@@ -17,11 +17,15 @@ public class AddUserUI extends JFrame {
     JTextField txtCustomerID;
     JButton btnSave;
 
+    DataAdapter dataAccess;
+
     public AddUserUI() {
 
         this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
         this.setTitle("Add User");
+
+        dataAccess = Application.getInstance().getDataAdapter();
 
         txtUsername = new JTextField(FIELD_WIDTH);
         txtPassword = new JTextField(FIELD_WIDTH);
@@ -73,32 +77,17 @@ public class AddUserUI extends JFrame {
                 return;
             }
 
-            Gson gson = new Gson();
-
             UserModel user = new UserModel();
             user.username = username;
             user.password = password;
             user.userType = userType;
             user.customerID = customerID;
 
-            MessageModel msg = new MessageModel();
-            msg.code = MessageModel.PUT_USER;
-            msg.data = gson.toJson(user);
-
-            SocketNetworkAdapter net = new SocketNetworkAdapter();
-
-            try {
-                msg = net.exchange(msg, "localhost", StoreServer.PORT);
-            }
-            catch (Exception ex) {
-                ex.printStackTrace();
-            }
-
-            if (msg.code == MessageModel.ERROR) {
-                JOptionPane.showMessageDialog(null, "Error adding user");
+            if (dataAccess.saveUser(user) == DataAdapter.SUCCESS) {
+                JOptionPane.showMessageDialog(null, "Success");
             }
             else {
-                JOptionPane.showMessageDialog(null, "Success");
+                JOptionPane.showMessageDialog(null, "Error adding user");
             }
 
             AddUserUI.this.dispose();

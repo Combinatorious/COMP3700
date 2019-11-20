@@ -16,16 +16,19 @@ public class TransactionHistoryUI extends JFrame {
 
     StoreTableModel tableModel;
 
+    int customerID;
+
     JTable table; // ReceiptTriggerListener needs access to this
 
-    public TransactionHistoryUI() {
+    public TransactionHistoryUI(int customerID) {
+        this.customerID = customerID;
         this.setTitle("Transaction History");
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
 
         dataAccess = Application.getInstance().getDataAdapter();
 
-        tableModel = new StoreTableModel(dataAccess.loadAllPurchases(), PurchaseModel.COL_NAMES);
+        tableModel = new StoreTableModel(dataAccess.loadPurchasesForCustomer(customerID), PurchaseModel.COL_NAMES);
 
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -82,7 +85,7 @@ public class TransactionHistoryUI extends JFrame {
     }
 
     public void updateTable() {
-        tableModel.setData(dataAccess.loadAllPurchases());
+        tableModel.setData(dataAccess.loadPurchasesForCustomer(customerID));
         tableModel.fireTableDataChanged();
     }
 

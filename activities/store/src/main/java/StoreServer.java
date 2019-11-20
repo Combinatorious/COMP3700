@@ -184,6 +184,7 @@ public class StoreServer {
         } else {
             msg.code = MessageModel.ERROR;
         }
+        msg.data = Integer.toString(MessageModel.SUCCESS);
         out.println(gson.toJson(msg));
     }
 

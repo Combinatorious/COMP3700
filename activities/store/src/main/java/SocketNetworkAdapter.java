@@ -64,7 +64,7 @@ public class SocketNetworkAdapter implements INetworkAdapter, DataAdapter {
         Gson gson = new Gson();
 
         MessageModel msg = new MessageModel();
-        msg.code = MessageModel.PUT_PURCHASE;
+        msg.code = MessageModel.PUT_PRODUCT;
         msg.data = gson.toJson(product);
 
         try {

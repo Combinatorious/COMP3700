@@ -41,14 +41,24 @@ public class CashierUI extends JFrame {
         btnPurchase.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddPurchaseUI().run();
+                if (user.userType == UserModel.CASHIER) {
+                    new AddPurchaseUI(0).run();
+                }
+                else {
+                    new AddPurchaseUI(user.customerID).run();
+                }
             }
         });
 
         btnPurchaseHist.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TransactionHistoryUI().run();
+                if (user.userType == UserModel.CASHIER) {
+                    new TransactionHistoryUI(0).run();
+                }
+                else {
+                    new TransactionHistoryUI(user.customerID).run();
+                }
             }
         });
     }

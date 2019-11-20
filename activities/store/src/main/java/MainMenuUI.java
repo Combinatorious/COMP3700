@@ -57,14 +57,14 @@ public class MainMenuUI extends JFrame {
         purchaseButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddPurchaseUI().run();
+                new AddPurchaseUI(0).run();
             }
         });
 
         purchaseHistButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new TransactionHistoryUI().run();
+                new TransactionHistoryUI(0).run();
             }
         });
     }

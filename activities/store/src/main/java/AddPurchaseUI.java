@@ -13,15 +13,23 @@ public class AddPurchaseUI extends JFrame {
 
     JTextField purchaseIDField = new JTextField(FIELD_WIDTH);
     JTextField barcodeField = new JTextField(FIELD_WIDTH);
-    JTextField customerIDField = new JTextField(FIELD_WIDTH);
+    JTextField customerIDField;
     JTextField quantityField = new JTextField(FIELD_WIDTH);
 
     JButton addButton = new JButton("Add Purchase");
 
-    public AddPurchaseUI() {
+    public AddPurchaseUI(int customerID) {
         this.setTitle("Add Purchase");
         this.setSize(FRAME_WIDTH, FRAME_HEIGHT);
         this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.PAGE_AXIS));
+
+        if (customerID != 0) {
+            customerIDField = new JTextField(Integer.toString(customerID), FIELD_WIDTH);
+            customerIDField.setEditable(false);
+        }
+        else {
+            customerIDField = new JTextField(FIELD_WIDTH);
+        }
 
         JPanel field1 = new JPanel();
         field1.add(new JLabel("Purchase ID:"));

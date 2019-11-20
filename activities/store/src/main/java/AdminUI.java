@@ -45,6 +45,7 @@ public class AdminUI extends JFrame {
             }
         });
 
+        // TODO: rework the addUser/updateUser into a table display similar to others
         btnAddUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
