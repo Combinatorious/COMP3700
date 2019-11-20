@@ -23,6 +23,7 @@ public interface DataAdapter {
     public String[][] loadAllProducts();
     public String[][] loadAllCustomers();
     public String[][] loadAllPurchases();
+    public String[][] loadPurchasesForCustomer(int customerID);
 
     // Update methods used by table to allow some level of manipulation
     public int updateValue(String id, String[] newVals, String firstColHeader);

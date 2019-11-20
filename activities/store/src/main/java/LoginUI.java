@@ -11,7 +11,6 @@ import java.util.Scanner;
 public class LoginUI {
 
     public static final int FRAME_WIDTH = 600, FRAME_HEIGHT = 400, FIELD_WIDTH = 20;
-    public static final int PORT = 1000;
 
     public JFrame view;
 
@@ -20,14 +19,16 @@ public class LoginUI {
     public JTextField txtUsername = new JTextField(FIELD_WIDTH);
     public JTextField txtPassword = new JPasswordField(FIELD_WIDTH);
 
-    Socket link;
-    Scanner input;
-    PrintWriter output;
+    DataAdapter dataAccess;
+    INetworkAdapter loginAdapter;
 
     int accessToken;
 
     public LoginUI() {
         this.view = new JFrame();
+
+        dataAccess = Application.getInstance().getDataAdapter();
+        loginAdapter = Application.getInstance().getNetworkAdapter();
 
         view.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -72,39 +73,25 @@ public class LoginUI {
             }
 
             // TODO: move all of this stuff into a DataAdapter client/server communicator
-            Gson gson = new Gson();
+            UserModel res = loginAdapter.login(user);
 
-            MessageModel msg = new MessageModel();
-            msg.code = MessageModel.LOGIN;
-            msg.data = gson.toJson(user);
-
-            SocketNetworkAdapter net = new SocketNetworkAdapter();
-
-            try {
-                msg = net.exchange(msg, "localhost", StoreServer.PORT);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-
-            if (msg.code == MessageModel.ERROR)
+            if (res == null)
                 JOptionPane.showMessageDialog(null, "Invalid username or password! Access denied!");
             else {
-                accessToken = msg.ssid;
+                accessToken = res.ssid;
                 JOptionPane.showMessageDialog(null, "Access granted with access token = " + accessToken);
 
-                user = gson.fromJson(msg.data, UserModel.class);
-
-                if (user.userType == UserModel.MANAGER) {
-                    new ManagerUI(user).run();
+                if (res.userType == UserModel.MANAGER) {
+                    new ManagerUI(res).run();
                 }
-                else if (user.userType == UserModel.CASHIER) {
-                    new CashierUI(user).run();
+                else if (res.userType == UserModel.CASHIER) {
+                    new CashierUI(res).run();
                 }
-                else if (user.userType == UserModel.CUSTOMER) {
-                    new CashierUI(user).run();
+                else if (res.userType == UserModel.CUSTOMER) {
+                    new CashierUI(res).run();
                 }
-                else if (user.userType == UserModel.ADMIN) {
-                    new AdminUI(user).run();
+                else if (res.userType == UserModel.ADMIN) {
+                    new AdminUI(res).run();
                 }
 
                 view.dispose();

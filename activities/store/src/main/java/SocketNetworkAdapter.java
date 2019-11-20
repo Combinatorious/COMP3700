@@ -44,7 +44,7 @@ public class SocketNetworkAdapter implements INetworkAdapter, DataAdapter {
 
         MessageModel msg = new MessageModel();
         msg.code = MessageModel.GET_PRODUCT;
-        msg.data = gson.toJson(barcode);
+        msg.data = Integer.toString(barcode);
 
         try {
             msg = exchange(msg, StoreServer.HOST, StoreServer.PORT);
@@ -86,7 +86,7 @@ public class SocketNetworkAdapter implements INetworkAdapter, DataAdapter {
 
         MessageModel msg = new MessageModel();
         msg.code = MessageModel.GET_CUSTOMER;
-        msg.data = gson.toJson(customerID);
+        msg.data = Integer.toString(customerID);
 
         try {
             msg = exchange(msg, StoreServer.HOST, StoreServer.PORT);
@@ -128,7 +128,7 @@ public class SocketNetworkAdapter implements INetworkAdapter, DataAdapter {
 
         MessageModel msg = new MessageModel();
         msg.code = MessageModel.GET_PURCHASE;
-        msg.data = gson.toJson(purchaseID);
+        msg.data = Integer.toString(purchaseID);
 
         try {
             msg = exchange(msg, StoreServer.HOST, StoreServer.PORT);
@@ -327,7 +327,7 @@ public class SocketNetworkAdapter implements INetworkAdapter, DataAdapter {
         msg.code = MessageModel.GET_ALL_PURCHASES;
 
         // use 0 id to differentiate from specific customer's purchases
-        msg.data = gson.toJson(0);
+        msg.data = Integer.toString(0);
 
         try {
             msg = exchange(msg, StoreServer.HOST, StoreServer.PORT);
@@ -348,7 +348,7 @@ public class SocketNetworkAdapter implements INetworkAdapter, DataAdapter {
 
         MessageModel msg = new MessageModel();
         msg.code = MessageModel.GET_ALL_PURCHASES;
-        msg.data = gson.toJson(customerID);
+        msg.data = Integer.toString(customerID);
 
         try {
             msg = exchange(msg, StoreServer.HOST, StoreServer.PORT);

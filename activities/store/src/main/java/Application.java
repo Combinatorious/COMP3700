@@ -23,26 +23,23 @@ public class Application {
     DataAdapter adapter = null;
     String dbFileName;
 
-    StoreServer server;
-
     private static Application instance = null;
 
 
     public static Application getInstance() {
         if (instance == null) {
         	// TODO: move getUserFile to server app
-            String dbFile = getUserFile();
-            if (dbFile == null) {
-                dbFile = DEFAULT_DB;
-            }
-            String dbType = "SQLite";
-            // TODO: remove this Oracle stuff, its 2019 no one is migrating to Oracle and we
-            // haven't actually implemented an Oracle access layer.
-            if (dbFile.matches(".*\\.ora")) {
-                dbType = "Oracle";
-            }
+            //String dbFile = getUserFile();
+            //if (dbFile == null) {
+            //    dbFile = DEFAULT_DB;
+            //}
+            //String dbType = "SQLite";
+            // TODO: remove this Oracle stuff, its 2019 no one is migrating to Oracle
+            //if (dbFile.matches(".*\\.ora")) {
+            //    dbType = "Oracle";
+            //}
 
-            instance = new Application(dbType, dbFile);
+            instance = new Application("Server", "");
         }
         return instance;
     }
@@ -61,16 +58,14 @@ public class Application {
 
 	// connect here once and for all
 
-        // TODO: if !db.equals("Server")
-        try {
-            adapter.connect(fileName);
+        // don't connect for now if we're using server
+        if (!db.equals("Server")) {
+            try {
+                adapter.connect(fileName);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        server = new StoreServer();
-        server.start();
 
         // set up a default admin for initial access
 
@@ -84,6 +79,7 @@ public class Application {
 
     public void applicationWillTerminate() {
     	// TODO: only disconnect if using local storage
+        // right now it won't matter since connect/disconnect not implemented for server
         adapter.disconnect();
     }
 
@@ -95,12 +91,23 @@ public class Application {
         adapter = aDataAdapter;
     }
 
+    public INetworkAdapter getNetworkAdapter() {
+        if (adapter != null && adapter.getClass() == SocketNetworkAdapter.class) {
+            return (INetworkAdapter) adapter;
+        }
+        else return null;
+    }
+
     public static void main(String[] args) {
 
         getInstance();
-//        MainMenuUI mainMenu = new MainMenuUI();
-//        mainMenu.run();
-        new LoginUI().run();
+        // I don't currently have login functioning with local database so only do it if we're using server
+        if (getInstance().getNetworkAdapter() != null) {
+            new LoginUI().run();
+        }
+        else {
+            new MainMenuUI().run();
+        }
 
     }
 

@@ -58,6 +58,10 @@ public class OracleWrapper implements DataAdapter {
         return null;
     }
 
+    public String[][] loadPurchasesForCustomer(int customerID) {
+        return null;
+    }
+
     @Override
     public int deleteRow(String ID, String idType) {
         return DataAdapter.ERROR;

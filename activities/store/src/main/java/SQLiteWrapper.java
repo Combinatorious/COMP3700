@@ -3,7 +3,7 @@ import java.sql.*;
 public class SQLiteWrapper implements DataAdapter {
     Connection conn = null;
     /* Database name, will be created in working directory if none exists */
-    public static final String url = "jdbc:sqlite:src/main/resources/databases/";
+    public static final String url = "jdbc:sqlite:src/main/databases/";
 
 
 
@@ -148,6 +148,31 @@ public class SQLiteWrapper implements DataAdapter {
         return loadAllFromTable("Purchase");
     }
 
+    public String[][] loadPurchasesForCustomer(int customerID) {
+        if (conn == null) {
+            return null;
+        }
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Customer WHERE CustomerID = " + customerID);
+            int columns = rs.getMetaData().getColumnCount();
+            String[][] result = new String[getRowCount("Customer")][columns];
+            int i = 0;
+            while (rs.next()) {
+                for (int j = 0; j < columns; j++) {
+                    result[i][j] = rs.getString(j + 1);
+                }
+                i++;
+            }
+            return result;
+        }
+        catch (Exception ex) {
+        ex.printStackTrace();
+        return null;
+        }
+
+    }
+
     private String[][] loadAllFromTable(String table) {
         if (conn == null) {
             return null;
@@ -208,16 +233,18 @@ public class SQLiteWrapper implements DataAdapter {
     }
 
     public CustomerModel loadCustomer(int customerID) {
-        CustomerModel customer = null;
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Customer WHERE CustomerID = " + customerID);
-            customer = getCustomerFromResultSet(rs);
+        if (conn != null) {
+            CustomerModel customer = null;
+            try {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM Customer WHERE CustomerID = " + customerID);
+                customer = getCustomerFromResultSet(rs);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return customer;
         }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return customer;
+        return null;
     }
 
     public int savePurchase(PurchaseModel purchase) {
@@ -256,16 +283,18 @@ public class SQLiteWrapper implements DataAdapter {
     }
 
     public PurchaseModel loadPurchase(int purchaseID) {
-        PurchaseModel purchase = null;
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Purchase WHERE PurchaseID = " + purchaseID);
-            purchase = getPurchaseFromResultSet(rs);
+        if (conn != null) {
+            PurchaseModel purchase = null;
+            try {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM Purchase WHERE PurchaseID = " + purchaseID);
+                purchase = getPurchaseFromResultSet(rs);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return purchase;
         }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return purchase;
+        return null;
     }
 
     public int saveUser(UserModel user) {
@@ -300,16 +329,18 @@ public class SQLiteWrapper implements DataAdapter {
     }
 
     public UserModel loadUser(UserModel user) {
-        UserModel res = null;
-        try {
-            Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM User WHERE Username = " + '\'' + user.username + '\'');
-            res = getUserFromResultSet(rs);
+        if (conn != null && user != null) {
+            UserModel res = null;
+            try {
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery("SELECT * FROM User WHERE Username = " + '\'' + user.username + '\'');
+                res = getUserFromResultSet(rs);
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
+            return res;
         }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return res;
+        return null;
     }
 
     public int removeUser(UserModel user) {

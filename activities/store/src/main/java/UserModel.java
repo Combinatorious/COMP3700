@@ -9,6 +9,10 @@ public class UserModel {
     public int ssid;
     public int customerID;
 
+    public UserModel() {
+        // default construct
+    }
+
     public UserModel(String username, String password, int userType, int customerID, int ssid) {
         this.username = username;
         this.password = password;
