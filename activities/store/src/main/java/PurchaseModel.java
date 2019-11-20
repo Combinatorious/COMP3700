@@ -5,8 +5,6 @@ import java.util.Date;
 public class PurchaseModel {
     public static final String[] COL_NAMES = {"PurchaseID", "Date", "Barcode", "CustomerID", "Quantity", "Price"};
 
-    DataAdapter dataAccess;
-
     public int purchaseID;
     public String date;
     public int barcode;
@@ -16,7 +14,7 @@ public class PurchaseModel {
 
     // Initialize a purchase model and derive date and price
     public PurchaseModel(int purchaseID, int barcode, int customerID, double quantity) {
-        dataAccess = Application.getInstance().getDataAdapter();
+        DataAdapter dataAccess = Application.getInstance().getDataAdapter();
         // TODO: fix this connect strategy
         // Using a singleton data adapter should allow you to connect once and disconnect on app exit
         // which is a lot easier to manage than having each window connect and disconnect which could
