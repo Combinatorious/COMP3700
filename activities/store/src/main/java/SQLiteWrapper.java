@@ -154,9 +154,9 @@ public class SQLiteWrapper implements DataAdapter {
         }
         try {
             Statement stmt = conn.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM Customer WHERE CustomerID = " + customerID);
+            ResultSet rs = stmt.executeQuery("SELECT * FROM Purchase WHERE CustomerID = " + customerID);
             int columns = rs.getMetaData().getColumnCount();
-            String[][] result = new String[getRowCount("Customer")][columns];
+            String[][] result = new String[getRowCount("Purchase")][columns];
             int i = 0;
             while (rs.next()) {
                 for (int j = 0; j < columns; j++) {

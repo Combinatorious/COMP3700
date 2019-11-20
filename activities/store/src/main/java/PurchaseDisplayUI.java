@@ -37,13 +37,6 @@ public class PurchaseDisplayUI extends JFrame {
         dataAccess = Application.getInstance().getDataAdapter();
 
         CustomerModel customer = dataAccess.loadCustomer(input.customerID);
-        // Slight delay as a bandaid fix for sending server messages too quickly
-        try {
-            Thread.sleep(100);
-        }
-        catch (Exception ex) {
-            ex.printStackTrace();
-        }
         ProductModel product = dataAccess.loadProduct(input.barcode);
         purchase = input;
 
