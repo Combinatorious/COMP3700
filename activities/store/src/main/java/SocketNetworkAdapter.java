@@ -364,6 +364,26 @@ public class SocketNetworkAdapter implements INetworkAdapter, DataAdapter {
         return gson.fromJson(msg.data, String[][].class);
     }
 
+    public String[][] loadAllUsers() {
+        Gson gson = new Gson();
+
+        MessageModel msg = new MessageModel();
+        msg.code = MessageModel.GET_ALL_USERS;
+
+        try {
+            msg = exchange(msg, StoreServer.HOST, StoreServer.PORT);
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+        if (msg.code == MessageModel.ERROR) {
+            return null;
+        }
+
+        return gson.fromJson(msg.data, String[][].class);
+    }
+
     // Update methods used by table to allow some level of manipulation
     public int updateValue(String id, String[] newVals, String firstColHeader) {
         Gson gson = new Gson();

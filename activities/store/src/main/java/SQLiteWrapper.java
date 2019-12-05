@@ -173,6 +173,10 @@ public class SQLiteWrapper implements DataAdapter {
 
     }
 
+    public String[][] loadAllUsers() {
+        return loadAllFromTable("User");
+    }
+
     private String[][] loadAllFromTable(String table) {
         if (conn == null) {
             return null;
@@ -399,6 +403,8 @@ public class SQLiteWrapper implements DataAdapter {
                 return saveCustomer(getCustomerFromStringArray(newVals));
             case "PurchaseID" :
                 return savePurchase(PurchaseModel.getPurchaseFromStringArray(newVals));
+            case "Username" :
+                return saveUser(UserModel.getUserFromStringArray(newVals));
             default : return DataAdapter.ERROR;
         }
     }
@@ -421,6 +427,24 @@ public class SQLiteWrapper implements DataAdapter {
             case "PurchaseID" :
                 sql = "DELETE FROM Purchase WHERE ";
                 break;
+
+            case "Username" :
+                sql = "DELETE FROM User WHERE ";
+                try {
+                    Statement stmt = conn.createStatement();
+                    if (stmt.executeUpdate(sql + firstColHeader + " = \'" + id + "\'") > 0) {
+                        return DataAdapter.SUCCESS;
+                    }
+                    else {
+                        return DataAdapter.ERROR;
+                    }
+                }
+                catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+
+                break;
+
             default : return DataAdapter.ERROR;
         }
         try {

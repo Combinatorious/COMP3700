@@ -7,9 +7,8 @@ import java.awt.event.WindowEvent;
 public class AdminUI extends JFrame {
     public static final int FRAME_HEIGHT = 1200, FRAME_WIDTH = 1000;
 
-    JButton btnConfig = new JButton("System Configuration");
-    JButton btnAddUser = new JButton("Add User");
-    JButton btnRemoveUser = new JButton("Remove User");
+    JButton btnManageUsers = new JButton("Manage Users");
+    JButton btnUpdateUser = new JButton("Change my username/password");
 
     public AdminUI(UserModel user) {
         this.setTitle("Administration: " + user.username);
@@ -18,15 +17,11 @@ public class AdminUI extends JFrame {
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
         JPanel line = new JPanel();
-        line.add(btnConfig);
+        line.add(btnManageUsers);
         this.getContentPane().add(line);
 
         line = new JPanel();
-        line.add(btnAddUser);
-        this.getContentPane().add(line);
-
-        line = new JPanel();
-        line.add(btnRemoveUser);
+        line.add(btnUpdateUser);
         this.getContentPane().add(line);
 
 
@@ -38,27 +33,19 @@ public class AdminUI extends JFrame {
             }
         });
 
-        btnConfig.addActionListener(new ActionListener() {
+        btnManageUsers.addActionListener(new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
-                // new ConfigUI().run();;
-                // TODO: configUI to change database file
+                new UserUI().run();
             }
         });
 
-        // TODO: rework the addUser/updateUser into a table display similar to others
-        btnAddUser.addActionListener(new ActionListener() {
+        btnUpdateUser.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new AddUserUI().run();
+                //new UpdateCurrentUserUI().run(); TODO: implement this for admin/manager/cashier/customer
             }
         });
 
-        btnRemoveUser.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // new RemoveUserUI().run();
-            }
-        });
     }
 
     public void run() {

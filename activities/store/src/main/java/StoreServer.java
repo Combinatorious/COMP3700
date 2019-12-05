@@ -43,6 +43,7 @@ public class StoreServer {
         put(MessageModel.GET_ALL_PRODUCTS, () -> getAllProducts());
         put(MessageModel.GET_ALL_CUSTOMERS, () -> getAllCustomers());
         put(MessageModel.GET_ALL_PURCHASES, () -> getAllPurchases());
+        put(MessageModel.GET_ALL_USERS, () -> getAllUsers());
         put(MessageModel.UPDATE_VALUE, () -> updateValue());
         put(MessageModel.DELETE_ROW, () -> deleteRow());
     }};
@@ -303,6 +304,12 @@ public class StoreServer {
 
         msg.data = gson.toJson(purchases);
 
+        out.println(gson.toJson(msg));
+    }
+
+    public static void getAllUsers() {
+        String[][] users = dataAccess.loadAllUsers();
+        msg.data = gson.toJson(users);
         out.println(gson.toJson(msg));
     }
 

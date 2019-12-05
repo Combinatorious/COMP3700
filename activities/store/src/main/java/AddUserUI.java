@@ -16,6 +16,7 @@ public class AddUserUI extends JFrame {
     JComboBox<String> comboUserType;
     JTextField txtCustomerID;
     JButton btnSave;
+    UserUI parent;
 
     DataAdapter dataAccess;
 
@@ -90,6 +91,9 @@ public class AddUserUI extends JFrame {
                 JOptionPane.showMessageDialog(null, "Error adding user");
             }
 
+            if (parent != null) {
+                parent.updateTable();
+            }
             AddUserUI.this.dispose();
         }
     }

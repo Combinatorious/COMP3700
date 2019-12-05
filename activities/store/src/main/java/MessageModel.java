@@ -26,6 +26,7 @@ public class MessageModel {
     public static final int GET_ALL_PRODUCTS = 500;
     public static final int GET_ALL_CUSTOMERS = 501;
     public static final int GET_ALL_PURCHASES = 502;
+    public static final int GET_ALL_USERS = 503;
 
     public static final int UPDATE_VALUE = 1000;
     public static final int DELETE_ROW = 1001;
