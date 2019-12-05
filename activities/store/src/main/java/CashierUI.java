@@ -11,6 +11,8 @@ public class CashierUI extends JFrame {
 
     JButton btnPurchase = new JButton("Record Transaction");
     JButton btnPurchaseHist = new JButton("Purchase History");
+    JButton btnProductView = new JButton("View Products");
+    JButton btnUpdateUser = new JButton("Change my username/password");
 
     public CashierUI(UserModel user) {
         if (user.userType == UserModel.CASHIER) {
@@ -30,6 +32,14 @@ public class CashierUI extends JFrame {
         line = new JPanel();
         line.add(btnPurchaseHist);
         this.getContentPane().add(line);
+
+        line = new JPanel();
+        line.add(btnProductView);
+        this.getContentPane().add(line);
+
+        line = new JPanel();
+        line.add(btnUpdateUser);
+        this.getContentPane().add(btnUpdateUser);
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -59,6 +69,22 @@ public class CashierUI extends JFrame {
                 else {
                     new TransactionHistoryUI(user.customerID).run();
                 }
+            }
+        });
+
+        btnProductView.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                ProductUI prodView = new ProductUI();
+                prodView.setEditable(false);
+                prodView.run();
+            }
+        });
+
+        btnUpdateUser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //new UpdateCurrentUserUI().run(); TODO: implement this for admin/manager/cashier/customer
             }
         });
     }

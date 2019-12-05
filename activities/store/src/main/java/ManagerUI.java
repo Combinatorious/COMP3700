@@ -9,6 +9,8 @@ public class ManagerUI extends JFrame {
 
     JButton btnProducts = new JButton("Product Database");
     JButton btnCustomers = new JButton("Customer Database");
+    JButton btnPurchaseHist = new JButton("Purchase History");
+    JButton btnUpdateUser = new JButton("Change my username/password");
 
     public ManagerUI(UserModel user) {
         this.setTitle("Manager: " + user.username);
@@ -22,6 +24,14 @@ public class ManagerUI extends JFrame {
 
         line = new JPanel();
         line.add(btnCustomers);
+        this.getContentPane().add(line);
+
+        line = new JPanel();
+        line.add(btnPurchaseHist);
+        this.getContentPane().add(line);
+
+        line = new JPanel();
+        line.add(btnUpdateUser);
         this.getContentPane().add(line);
 
 
@@ -44,6 +54,20 @@ public class ManagerUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new CustomerUI().run();
+            }
+        });
+
+        btnPurchaseHist.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new TransactionHistoryUI(0).run();
+            }
+        });
+
+        btnUpdateUser.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //new UpdateCurrentUserUI().run(); TODO: implement this for admin/manager/cashier/customer
             }
         });
     }
