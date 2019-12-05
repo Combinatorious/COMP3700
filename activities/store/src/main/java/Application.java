@@ -23,6 +23,8 @@ public class Application {
     DataAdapter adapter = null;
     String dbFileName;
 
+    UserModel user;
+
     private static Application instance = null;
 
 
@@ -47,7 +49,7 @@ public class Application {
     private Application(String db, String fileName) {
         dbFileName = fileName;
         if (db.equals("Oracle")) {
-            adapter = new OracleWrapper();
+        //    adapter = new OracleWrapper();
         }
         else if (db.equals("SQLite")) {
             adapter = new SQLiteWrapper();
@@ -78,6 +80,10 @@ public class Application {
     }
 
     public void applicationWillTerminate() {
+        INetworkAdapter logoutAdapter = getNetworkAdapter();
+        if (user != null && logoutAdapter != null) {
+            logoutAdapter.logout(user);
+        }
     	// TODO: only disconnect if using local storage
         // right now it won't matter since connect/disconnect not implemented for server
         adapter.disconnect();
@@ -89,6 +95,14 @@ public class Application {
 
     public void setDataAdapter(DataAdapter aDataAdapter) {
         adapter = aDataAdapter;
+    }
+
+    public void setCurrentUser(UserModel user) {
+        this.user = user;
+    }
+
+    public UserModel getCurrentUser() {
+        return user;
     }
 
     public INetworkAdapter getNetworkAdapter() {

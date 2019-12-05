@@ -24,8 +24,6 @@ public class StoreServer {
     // note: requires a databases directory to exist to open to the directory
     public static final String RELATIVE_PATH = "src/main/databases/";
 
-    public static int totalActiveUsers = 0;
-
     public static Map<Integer, UserModel> activeUsers = new HashMap<Integer, UserModel>();
 
     private static final Map<Integer, Runnable> runTable = new HashMap<Integer, Runnable>() {{
@@ -244,13 +242,17 @@ public class StoreServer {
 
         UserModel res = dataAccess.loadUser(user);
 
-        if (res != null && user.password.equals(res.password)) {
+        if (activeUsers.containsValue(res)) {
+            msg.code = MessageModel.ERROR;
+        }
+        else if (res != null && user.password.equals(res.password)) {
             msg.code = MessageModel.SUCCESS;
-            msg.ssid = ++totalActiveUsers;
+            msg.ssid = activeUsers.size() + 1;
             res.ssid = msg.ssid;
             msg.data = gson.toJson(res);
             activeUsers.put(msg.ssid, res);
-        } else {
+        }
+        else {
             msg.code = MessageModel.ERROR;
         }
         out.println(gson.toJson(msg));
@@ -262,8 +264,6 @@ public class StoreServer {
         System.out.println("Logout from " + user.username);
 
         if (activeUsers.remove(user.ssid, user)) {
-            // success
-            totalActiveUsers--;
             msg.code = MessageModel.SUCCESS;
         } else {
             msg.code = MessageModel.ERROR;

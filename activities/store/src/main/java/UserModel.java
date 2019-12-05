@@ -43,4 +43,21 @@ public class UserModel {
                 Integer.parseInt(values[3])
         );
     }
+
+    public boolean equals(Object obj) {
+        if (!(obj instanceof UserModel)) {
+            return false;
+        }
+        if ((username == ((UserModel) obj).username)
+                && (password == ((UserModel) obj).password)
+                && (userType == ((UserModel) obj).userType)
+                && (customerID == ((UserModel) obj).customerID)) {
+            return true;
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        return (username + password).hashCode();
+    }
 }

@@ -80,6 +80,7 @@ public class LoginUI {
             else {
                 accessToken = res.ssid;
                 JOptionPane.showMessageDialog(null, "Access granted with access token = " + accessToken);
+                Application.getInstance().setCurrentUser(res);
 
                 if (res.userType == UserModel.MANAGER) {
                     new ManagerUI(res).run();
