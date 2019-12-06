@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -80,6 +81,8 @@ public class TransactionHistoryUI extends JFrame {
     }
 
     public void run() {
+        Dimension screen = Application.getInstance().getScreenSize();
+        this.setLocation(screen.width/2-this.getSize().width/2, screen.height/2-this.getSize().height/2);
         this.pack();
         this.setVisible(true);
     }

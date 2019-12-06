@@ -5,6 +5,7 @@ public class StoreTableModel extends AbstractTableModel {
 
     private String[] columnNames;
     private String[][] data;
+    public boolean editable = true;
 
     public StoreTableModel(String[][] data, String[] colNames) {
         super();
@@ -33,14 +34,20 @@ public class StoreTableModel extends AbstractTableModel {
         return data[row][col];
     }
 
-    /* Quick fix for erroneous update behavior on id column is to make it uneditable */
+    /* Quick fix for erroneous update behavior on id column is to make it uneditable
+     * However a consequence of this is that usernames cannot be edited in users table, oh well
+     */
     public boolean isCellEditable(int row, int col) {
-        return col != 0;
+        return col != 0 && editable;
     }
 
     public void setValueAt(Object value, int row, int col) {
         data[row][col] = (String) value;
         fireTableCellUpdated(row, col);
+    }
+
+    public void setEditable(boolean value) {
+        editable = value;
     }
 
     /* Used to identify type of table */

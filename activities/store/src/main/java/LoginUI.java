@@ -16,6 +16,7 @@ public class LoginUI {
 
     public JButton btnLogin = new JButton("Login");
 
+    // these do NOTHING and I don't know why I keep putting them here
     public JTextField txtUsername = new JTextField(FIELD_WIDTH);
     public JTextField txtPassword = new JPasswordField(FIELD_WIDTH);
 
@@ -41,20 +42,22 @@ public class LoginUI {
         JPanel line = new JPanel();
         line.add(new JLabel("Username"));
         line.add(txtUsername);
-        pane.add(line);
+        pane.add(line, Component.CENTER_ALIGNMENT);
 
         line = new JPanel();
         line.add(new JLabel("Password"));
         line.add(txtPassword);
-        pane.add(line);
+        pane.add(line, Component.CENTER_ALIGNMENT);
 
-        pane.add(btnLogin);
+        pane.add(btnLogin, Component.CENTER_ALIGNMENT);
 
         btnLogin.addActionListener(new LoginActionListener());
 
     }
 
     public void run() {
+        Dimension screen = Application.getInstance().getScreenSize();
+        view.setLocation(screen.width/2-view.getSize().width/2, screen.height/2-view.getSize().height/2);
         this.view.pack();
         this.view.setVisible(true);
     }

@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class UserUI extends JFrame {
@@ -23,7 +24,7 @@ public class UserUI extends JFrame {
 
         JPanel addButton = new JPanel();
         addButton.add(addUserButton);
-        this.getContentPane().add(addButton);
+        this.getContentPane().add(addButton, Component.CENTER_ALIGNMENT);
 
         tableModel = new StoreTableModel(dataAccess.loadAllUsers(), UserModel.COL_NAMES);
 
@@ -100,6 +101,8 @@ public class UserUI extends JFrame {
     }
 
     public void run() {
+        Dimension screen = Application.getInstance().getScreenSize();
+        this.setLocation(screen.width/2-this.getSize().width/2, screen.height/2-this.getSize().height/2);
         this.pack();
         this.setVisible(true);
     }

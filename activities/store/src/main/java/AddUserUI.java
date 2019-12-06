@@ -39,26 +39,26 @@ public class AddUserUI extends JFrame {
         JPanel line = new JPanel();
         line.add(new JLabel("Username"));
         line.add(txtUsername);
-        pane.add(line);
+        pane.add(line, Component.CENTER_ALIGNMENT);
 
         line = new JPanel();
         line.add(new JLabel("Password"));
         line.add(txtPassword);
-        pane.add(line);
+        pane.add(line, Component.CENTER_ALIGNMENT);
 
         line = new JPanel();
         line.add(new JLabel("User Type"));
         line.add(comboUserType);
-        pane.add(line);
+        pane.add(line, Component.CENTER_ALIGNMENT);
 
         line = new JPanel();
         line.add(new JLabel("Customer ID"));
         line.add(txtCustomerID);
-        pane.add(line);
+        pane.add(line, Component.CENTER_ALIGNMENT);
 
 
         btnSave = new JButton("Save User");
-        pane.add(btnSave);
+        pane.add(btnSave, Component.CENTER_ALIGNMENT);
         btnSave.addActionListener(new SaveUserListener());
     }
 
@@ -99,6 +99,8 @@ public class AddUserUI extends JFrame {
     }
 
     public void run() {
+        Dimension screen = Application.getInstance().getScreenSize();
+        this.setLocation(screen.width/2-this.getSize().width/2, screen.height/2-this.getSize().height/2);
         this.pack();
         this.setVisible(true);
     }

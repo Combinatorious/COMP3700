@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -23,7 +24,7 @@ public class CustomerUI extends JFrame {
 
         JPanel addButton = new JPanel();
         addButton.add(addCustomerButton);
-        this.getContentPane().add(addButton);
+        this.getContentPane().add(addButton, Component.CENTER_ALIGNMENT);
 
         tableModel = new StoreTableModel(dataAccess.loadAllCustomers(), CustomerModel.COL_NAMES);
 
@@ -55,6 +56,8 @@ public class CustomerUI extends JFrame {
     }
 
     public void run() {
+        Dimension screen = Application.getInstance().getScreenSize();
+        this.setLocation(screen.width/2-this.getSize().width/2, screen.height/2-this.getSize().height/2);
         this.pack();
         this.setVisible(true);
     }

@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -11,6 +12,7 @@ public class ProductUI extends JFrame {
     DataAdapter dataAccess;
 
     StoreTableModel tableModel;
+    JTable table;
 
     JButton addProductButton = new JButton("Add Product");
 
@@ -24,13 +26,13 @@ public class ProductUI extends JFrame {
 
         JPanel addButton = new JPanel();
         addButton.add(addProductButton);
-        this.getContentPane().add(addButton);
+        this.getContentPane().add(addButton, Component.CENTER_ALIGNMENT);
 
         tableModel = new StoreTableModel(dataAccess.loadAllProducts(), ProductModel.COL_NAMES);
 
         tableModel.addTableModelListener(new TableUpdateListener(dataAccess));
 
-        JTable table = new JTable(tableModel);
+        table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
         table.setFillsViewportHeight(true);
 
@@ -55,7 +57,20 @@ public class ProductUI extends JFrame {
 
     }
 
+    /*
+        Used to make product table uneditable and remove add product button (for customers and cashiers)
+     */
+    public void setEditable(boolean editable) {
+        if (tableModel != null) {
+            tableModel.setEditable(editable);
+        }
+        // hide add product button
+        this.addProductButton.setVisible(editable);
+    }
+
     public void run() {
+        Dimension screen = Application.getInstance().getScreenSize();
+        this.setLocation(screen.width/2-this.getSize().width/2, screen.height/2-this.getSize().height/2);
         this.pack();
         this.setVisible(true);
     }
